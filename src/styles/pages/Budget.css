@@ -1,0 +1,76 @@
+.budget {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+
+  & .categories {
+    border-collapse: separate;
+    border-spacing: 0 0.75rem;
+    table-layout: auto;
+
+    & .info {
+      padding: 1rem;
+      border-radius: 0.5rem;
+    }
+
+    & .category {
+      border-radius: 0.5rem;
+      text-decoration: none;
+      color: var(--text);
+      outline: none;
+
+      td {
+        background-color: var(--background-100);
+        transition: all 0.1s ease-in-out;
+
+        &:hover {
+          background-color: var(--background-200);
+        }
+      }
+
+      td:first-child {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+      }
+      td:last-child {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+
+      & .title {
+        width: auto;
+        padding: 0.75rem 1rem;
+        white-space: nowrap;
+        vertical-align: middle;
+      }
+
+      & .stage {
+        width: 10vw;
+        padding: 1.5rem 1rem;
+        text-align: center;
+        vertical-align: middle;
+
+        h5 {
+          margin-top: 1.375rem;
+        }
+
+        & .negative {
+          color: var(--red);
+        }
+
+        & .happy {
+          color: var(--green-600);
+        }
+      }
+
+      &:hover {
+        td {
+          background-color: var(--background-200);
+        }
+
+        cursor: pointer;
+      }
+    }
+  }
+}

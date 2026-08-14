@@ -1,0 +1,20 @@
+.base-header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+  background-color: var(--background);
+  color: var(--text);
+}
+
+.base-header > .control-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}

@@ -1,7 +1,60 @@
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
 import "./App.css";
 
+import BaseLayout from "./components/ui/BaseLayout";
+import Home from "./components/pages/Home";
+import Budget from "./components/pages/Budget";
+import Breakdown from "./components/pages/Breakdown";
+import Necessities from "./components/pages/Necessities";
+import Savings from "./components/pages/Savings";
+import Taxes from "./components/pages/Taxes";
+import Misc from "./components/pages/Misc";
+
 function App() {
-  return <>Coming Soon!</>;
+  const [currentPage, setCurrentPage] = React.useState("home");
+  const [theme, setTheme] = React.useState<"light" | "dark">(() => {
+    const savedTheme = window.localStorage.getItem("theme");
+
+    if (savedTheme === "light" || savedTheme === "dark") {
+      return savedTheme;
+    }
+
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  });
+
+  React.useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    window.localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((currentTheme) => (currentTheme === "light" ? "dark" : "light"));
+  };
+
+  return (
+    <Router basename="/">
+      <BaseLayout
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        theme={theme}
+        toggleTheme={toggleTheme}
+      >
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/budget" element={<Budget />} />
+          <Route path="/breakdown" element={<Breakdown />} />
+          <Route path="/necessities" element={<Necessities />} />
+          <Route path="/savings" element={<Savings />} />
+          <Route path="/taxes" element={<Taxes />} />
+          <Route path="/misc" element={<Misc />} />
+        </Routes>
+      </BaseLayout>
+    </Router>
+  );
 }
 
 export default App;
