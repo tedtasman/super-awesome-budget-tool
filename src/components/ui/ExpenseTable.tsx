@@ -4,6 +4,8 @@ import { useState } from "react";
 import { v4 } from "uuid";
 import TimeframeSelector from "./TimeframeSelector";
 
+import "../../styles/ui/ExpenseTable.css";
+
 interface ExpenseTableProps {
   timeframe: "week" | "month" | "year" | "paycheck" | number;
   addExpense: (expense: Expense) => void;
@@ -20,6 +22,10 @@ export default function ExpenseTable({
   const [newExpenseName, setNewExpenseName] = useState("");
   const [newExpenseCost, setNewExpenseCost] = useState(0);
   const [newExpenseFrequencyDays, setNewExpenseFrequencyDays] = useState(0);
+  const [adding, setAdding] = useState(false);
+
+  const addReady = newExpenseName && newExpenseCost && newExpenseFrequencyDays;
+  const noExpenses = Object.keys(expenses).length === 0;
 
   const calculatePeriodicCost = (cost: number, frequencyDays: number) => {
     const daysInPeriod = convertTimeframeToDays(timeframe);
@@ -40,6 +46,12 @@ export default function ExpenseTable({
     }[timeframe];
   };
 
+  const totalPeriodicCost = Object.values(expenses).reduce(
+    (total, expense) =>
+      total + calculatePeriodicCost(expense.cost, expense.frequencyDays),
+    0,
+  );
+
   const handleAddExpense = () => {
     if (newExpenseName && newExpenseCost > 0 && newExpenseFrequencyDays > 0) {
       addExpense({
@@ -48,69 +60,85 @@ export default function ExpenseTable({
         cost: newExpenseCost,
         frequencyDays: newExpenseFrequencyDays,
       });
-      setNewExpenseName("");
-      setNewExpenseCost(0);
-      setNewExpenseFrequencyDays(0);
     }
+    setNewExpenseName("");
+    setNewExpenseCost(0);
+    setNewExpenseFrequencyDays(0);
+    setAdding(false);
   };
 
   return (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Cost</th>
-            <th>Frequency</th>
-            <th>Cost per {timeframe}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.values(expenses).map((expense) => (
-            <tr key={expense.id}>
-              <td>{expense.name}</td>
-              <td>${expense.cost.toFixed(2)}</td>
-              <td>{expense.frequencyDays} days</td>
-              <td>
-                $
-                {calculatePeriodicCost(
-                  expense.cost,
-                  expense.frequencyDays,
-                ).toFixed(2)}
-              </td>
-            </tr>
-          ))}
-          <tr>
+    <table className="expense-table">
+      <thead className="header">
+        <tr>
+          <th>Name</th>
+          <th>Cost</th>
+          <th>Frequency</th>
+          <th>Cost per {timeframe}</th>
+          <th className="hidden"></th>
+        </tr>
+      </thead>
+      <tbody className="body">
+        {Object.values(expenses).map((expense) => (
+          <tr key={expense.id} className="expense">
+            <td>{expense.name}</td>
+            <td>${expense.cost.toFixed(2)}</td>
+            <td>{expense.frequencyDays} days</td>
             <td>
-              <input
-                type="text"
-                placeholder="Expense name"
-                value={newExpenseName}
-                onChange={(e) => setNewExpenseName(e.target.value)}
-              />
+              $
+              {calculatePeriodicCost(
+                expense.cost,
+                expense.frequencyDays,
+              ).toFixed(2)}
             </td>
-            <td>
-              <input
-                type="number"
-                placeholder="Cost"
-                value={newExpenseCost}
-                onChange={(e) => setNewExpenseCost(Number(e.target.value))}
-              />
-            </td>
-            <td>
-              <TimeframeSelector
-                timeframe={newExpenseFrequencyDays}
-                setTimeFrame={(value) => {
-                  setNewExpenseFrequencyDays(convertTimeframeToDays(value));
-                }}
-              />
-            </td>
-            <td>
-              <button onClick={handleAddExpense}>Add</button>
+            <td className={adding ? "hidden" : "plus"}>
+              <button onClick={() => setAdding(true)}>+</button>
             </td>
           </tr>
-        </tbody>
-      </table>
-    </div>
+        ))}
+        <tr className={adding || noExpenses ? "add" : "hidden"}>
+          <td>
+            <input
+              type="text"
+              placeholder="Expense name"
+              value={newExpenseName}
+              onChange={(e) => setNewExpenseName(e.target.value)}
+            />
+          </td>
+          <td>
+            <input
+              type="number"
+              placeholder="Cost"
+              value={newExpenseCost}
+              onChange={(e) => setNewExpenseCost(Number(e.target.value))}
+            />
+          </td>
+          <td>
+            <TimeframeSelector
+              timeframe={newExpenseFrequencyDays}
+              setTimeFrame={(value) => {
+                setNewExpenseFrequencyDays(convertTimeframeToDays(value));
+              }}
+            />
+          </td>
+          <td>poop</td>
+          <td>
+            <button
+              onClick={handleAddExpense}
+              className={addReady ? "ready" : ""}
+              disabled={noExpenses && !addReady}
+            >
+              {addReady || noExpenses ? "Add" : "Cancel"}
+            </button>
+          </td>
+        </tr>
+        <tr className="total">
+          <td>Total</td>
+          <td></td>
+          <td></td>
+          <td>{`$${totalPeriodicCost.toFixed(2)}`}</td>
+        </tr>
+      </tbody>
+    </table>
   );
 }
