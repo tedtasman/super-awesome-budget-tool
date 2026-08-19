@@ -66,6 +66,21 @@ p {
 /* End global styles */
 
 /* Main colors */
+:root {
+  --primary: #8667da;
+  --primary-50: #efeafa;
+  --primary-100: #ded6f5;
+  --primary-200: #bdadeb;
+  --primary-300: #9d84e1;
+  --primary-400: #7c5bd7;
+  --primary-500: #5b32cd;
+  --primary-600: #4928a4;
+  --primary-700: #371e7b;
+  --primary-800: #241452;
+  --primary-900: #120a29;
+  --primary-950: #090515;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     --text: #060521;

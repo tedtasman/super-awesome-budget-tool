@@ -45,9 +45,8 @@
         }
 
         &.active {
-          background-color: var(--green);
-          color: var(--text);
-          border-left: var(--green) 4px solid;
+          background-color: var(--primary);
+          color: var(--background);
         }
       }
     }
