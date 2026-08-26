@@ -2,7 +2,9 @@ import type { Expense } from "../../store/ExpensesStore";
 import { useFinancialStore } from "../../store/FinancialStore";
 import { useState } from "react";
 import { v4 } from "uuid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TimeframeSelector from "./TimeframeSelector";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import "../../styles/ui/ExpenseTable.css";
 
@@ -92,7 +94,9 @@ export default function ExpenseTable({
               ).toFixed(2)}
             </td>
             <td className={adding ? "hidden" : "plus"}>
-              <button onClick={() => setAdding(true)}>+</button>
+              <button onClick={() => setAdding(true)}>
+                <FontAwesomeIcon icon={faPlus} />
+              </button>
             </td>
           </tr>
         ))}
@@ -121,7 +125,7 @@ export default function ExpenseTable({
               }}
             />
           </td>
-          <td>poop</td>
+          <td></td>
           <td>
             <button
               onClick={handleAddExpense}
