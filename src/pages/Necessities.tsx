@@ -4,7 +4,7 @@ import ExpenseTable from "../ui/ExpenseTable";
 import TimeframeSelector from "../ui/TimeframeSelector";
 import PreTaxExpenseTable from "../ui/PreTaxExpenseTable";
 
-import "./styles/pages/Expenses.css";
+import "./styles/Expenses.css";
 
 export default function Necessities() {
   const necessities = necessitiesHooks.useExpenses();

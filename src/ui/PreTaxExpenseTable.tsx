@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TimeframeSelector from "./TimeframeSelector";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import "./styles/ui/ExpenseTable.css";
+import "./styles/ExpenseTable.css";
 
 interface ExpenseTableProps {
   timeframe: "week" | "month" | "year" | "paycheck" | number;

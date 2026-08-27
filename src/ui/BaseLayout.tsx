@@ -1,7 +1,7 @@
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
-import "./styles/ui/BaseLayout.css";
+import "./styles/BaseLayout.css";
 
 export default function BaseLayout({
   children,

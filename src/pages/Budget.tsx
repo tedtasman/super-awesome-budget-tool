@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./styles/pages/Budget.css";
+import "./styles/Budget.css";
 
 export default function Budget() {
   const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import "./styles/ui/Header.css";
+import "./styles/Header.css";
 
 export interface HeaderProps {
   pageTitle: string;

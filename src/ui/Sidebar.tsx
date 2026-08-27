@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import "./styles/ui/Sidebar.css";
+import "./styles/Sidebar.css";
 
 export default function Sidebar({
   currentPage,
