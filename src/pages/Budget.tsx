@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "../../styles/pages/Budget.css";
+import "./styles/pages/Budget.css";
 
 export default function Budget() {
   const navigate = useNavigate();
@@ -16,12 +16,7 @@ export default function Budget() {
           </tr>
         </thead>
         <tbody>
-          <tr
-            className="category"
-            role="link"
-            tabIndex={0}
-            onClick={() => navigate("/necessities")}
-          >
+          <tr className="category" role="link" tabIndex={0} onClick={() => navigate("/necessities")}>
             <td className="title">
               <h5>Necessities</h5>
             </td>
@@ -41,12 +36,7 @@ export default function Budget() {
               <span>$789.00</span>
             </td>
           </tr>
-          <tr
-            className="category"
-            role="link"
-            tabIndex={0}
-            onClick={() => navigate("/savings")}
-          >
+          <tr className="category" role="link" tabIndex={0} onClick={() => navigate("/savings")}>
             <td className="title">
               <h5>Savings</h5>
             </td>
@@ -66,12 +56,7 @@ export default function Budget() {
               <span>$789.00</span>
             </td>
           </tr>
-          <tr
-            className="category"
-            role="link"
-            tabIndex={0}
-            onClick={() => navigate("/misc")}
-          >
+          <tr className="category" role="link" tabIndex={0} onClick={() => navigate("/misc")}>
             <td className="title">
               <h5>Misc</h5>
             </td>

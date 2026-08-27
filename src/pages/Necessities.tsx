@@ -1,14 +1,14 @@
-import { useNecessitiesStore } from "../../state/store/expenses";
+import { necessitiesHooks } from "../state/hooks/expenses";
 import { useState } from "react";
 import ExpenseTable from "../ui/ExpenseTable";
 import TimeframeSelector from "../ui/TimeframeSelector";
 import PreTaxExpenseTable from "../ui/PreTaxExpenseTable";
 
-import "../../styles/pages/Expenses.css";
+import "./styles/pages/Expenses.css";
 
 export default function Necessities() {
-  const necessities = useNecessitiesStore((state) => state.expenses);
-  const addNecessity = useNecessitiesStore((state) => state.addExpense);
+  const necessities = necessitiesHooks.useExpenses();
+  const addNecessity = necessitiesHooks.useAddExpense();
 
   const [timeframe, setTimeFrame] = useState<"week" | "month" | "year" | "paycheck" | number>("month");
 

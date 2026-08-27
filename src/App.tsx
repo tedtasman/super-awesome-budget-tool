@@ -3,14 +3,14 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import "./App.css";
 
-import BaseLayout from "./components/ui/BaseLayout";
-import Home from "./components/pages/Home";
-import Budget from "./components/pages/Budget";
-import Breakdown from "./components/pages/Breakdown";
-import Necessities from "./components/pages/Necessities";
-import Savings from "./components/pages/Savings";
-import Taxes from "./components/pages/Taxes";
-import Misc from "./components/pages/Misc";
+import BaseLayout from "./ui/components/BaseLayout";
+import Home from "./pages/Home";
+import Budget from "./pages/Budget";
+import Breakdown from "./pages/Breakdown";
+import Necessities from "./pages/Necessities";
+import Savings from "./pages/Savings";
+import Taxes from "./pages/Taxes";
+import Misc from "./pages/Misc";
 
 function App() {
   const [currentPage, setCurrentPage] = React.useState("home");
@@ -21,9 +21,7 @@ function App() {
       return savedTheme;
     }
 
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   });
 
   React.useEffect(() => {
@@ -37,12 +35,7 @@ function App() {
 
   return (
     <Router basename="/">
-      <BaseLayout
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        theme={theme}
-        toggleTheme={toggleTheme}
-      >
+      <BaseLayout currentPage={currentPage} setCurrentPage={setCurrentPage} theme={theme} toggleTheme={toggleTheme}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/budget" element={<Budget />} />

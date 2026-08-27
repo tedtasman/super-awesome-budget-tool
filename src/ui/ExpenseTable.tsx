@@ -1,12 +1,12 @@
-import type { Expense } from "../../state/store/expenses";
-import { useFinancialStore } from "../../state/store/financial";
+import type { Expense } from "../state/store/expenses";
+import { useFinancialStore } from "../state/store/financial";
 import { useState } from "react";
 import { v4 } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TimeframeSelector from "./TimeframeSelector";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import "../../styles/ui/ExpenseTable.css";
+import "./styles/ui/ExpenseTable.css";
 
 interface ExpenseTableProps {
   timeframe: "week" | "month" | "year" | "paycheck" | number;
@@ -67,10 +67,9 @@ export default function ExpenseTable({ timeframe, addExpense, expenses }: Expens
       <thead className="header">
         <tr>
           <th>Name</th>
-          <th>Percent of Paycheck</th>
-          <th>Flat Amount per Paycheck</th>
-          <th>Pre Tax Value per {timeframe}</th>
-          <th>Post Tax Value per {timeframe}</th>
+          <th>Cost</th>
+          <th>Frequency</th>
+          <th>Cost per {timeframe}</th>
           <th className="hidden"></th>
         </tr>
       </thead>
@@ -81,7 +80,6 @@ export default function ExpenseTable({ timeframe, addExpense, expenses }: Expens
             <td>${expense.cost.toFixed(2)}</td>
             <td>{expense.frequencyDays} days</td>
             <td>${calculatePeriodicCost(expense.cost, expense.frequencyDays).toFixed(2)}</td>
-            <td>test</td>
             <td className={adding ? "hidden" : "plus"}>
               <button onClick={() => setAdding(true)}>
                 <FontAwesomeIcon icon={faPlus} />
@@ -115,7 +113,6 @@ export default function ExpenseTable({ timeframe, addExpense, expenses }: Expens
             />
           </td>
           <td></td>
-          <td></td>
           <td>
             <button onClick={handleAddExpense} className={addReady ? "ready" : ""} disabled={noExpenses && !addReady}>
               {addReady || noExpenses ? "Add" : "Cancel"}
@@ -127,7 +124,6 @@ export default function ExpenseTable({ timeframe, addExpense, expenses }: Expens
           <td></td>
           <td></td>
           <td>{`$${totalPeriodicCost.toFixed(2)}`}</td>
-          <td></td>
         </tr>
       </tbody>
     </table>

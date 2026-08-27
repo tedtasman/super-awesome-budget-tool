@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import "../../styles/ui/Sidebar.css";
+import "./styles/ui/Sidebar.css";
 
 export default function Sidebar({
   currentPage,
@@ -44,11 +44,7 @@ export default function Sidebar({
         </div>
         <div className="footer">
           this is where the footer would be
-          <button
-            type="button"
-            onClick={toggleTheme}
-            aria-pressed={theme === "dark"}
-          >
+          <button type="button" onClick={toggleTheme} aria-pressed={theme === "dark"}>
             {theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           </button>
         </div>

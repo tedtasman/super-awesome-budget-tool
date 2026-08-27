@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Creatable from "react-select/creatable";
-import { useFinancialStore } from "../../state/store/financial";
+import { useFinancialStore } from "../state/store/financial";
 
 interface TimeframeOption {
   value: "week" | "month" | "year" | "paycheck" | number;
