@@ -42,8 +42,8 @@ function App() {
           <Route path="/breakdown" element={<Breakdown />} />
           <Route path="/necessities" element={<Necessities />} />
           <Route path="/savings" element={<Savings />} />
-          <Route path="/taxes" element={<Taxes />} />
           <Route path="/misc" element={<Misc />} />
+          <Route path="/taxes" element={<Taxes />} />
         </Routes>
       </BaseLayout>
     </Router>

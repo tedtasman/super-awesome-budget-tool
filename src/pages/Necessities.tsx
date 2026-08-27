@@ -5,6 +5,7 @@ import TimeframeSelector from "../ui/TimeframeSelector";
 import PreTaxExpenseTable from "../ui/PreTaxExpenseTable";
 
 import "./styles/Expenses.css";
+import PageCore from "../ui/PageCore";
 
 export default function Necessities() {
   const necessities = necessitiesHooks.useExpenses();
@@ -13,10 +14,13 @@ export default function Necessities() {
   const [timeframe, setTimeFrame] = useState<"week" | "month" | "year" | "paycheck" | number>("month");
 
   return (
-    <div className="expenses-base">
-      <TimeframeSelector timeframe={timeframe} setTimeFrame={setTimeFrame} />
+    <PageCore
+      pageTitle="Necessities"
+      className="expenses-base"
+      actions={<TimeframeSelector timeframe={timeframe} setTimeFrame={setTimeFrame} />}
+    >
       <PreTaxExpenseTable timeframe={timeframe} addExpense={addNecessity} expenses={necessities} />
       <ExpenseTable timeframe={timeframe} addExpense={addNecessity} expenses={necessities} />
-    </div>
+    </PageCore>
   );
 }

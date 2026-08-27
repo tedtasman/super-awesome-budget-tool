@@ -18,8 +18,8 @@ export default function Sidebar({
     { name: "Breakdown", path: "/breakdown" },
     { name: "Necessities", path: "/necessities" },
     { name: "Savings", path: "/savings" },
-    { name: "Taxes", path: "/taxes" },
     { name: "Misc", path: "/misc" },
+    { name: "Taxes", path: "/taxes" },
   ];
 
   return (

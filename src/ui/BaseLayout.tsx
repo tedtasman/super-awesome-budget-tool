@@ -1,4 +1,3 @@
-import Header from "./Header";
 import Sidebar from "./Sidebar";
 
 import "./styles/BaseLayout.css";
@@ -19,10 +18,7 @@ export default function BaseLayout({
   return (
     <div className="base-layout">
       <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} theme={theme} toggleTheme={toggleTheme} />
-      <div className="base-layout-right">
-        <Header pageTitle={currentPage} actions={<>hello this is an action</>} tabs={<>hello this is a tab</>} />
-        <div className="base-layout-content">{children}</div>
-      </div>
+      <div className="base-layout-right">{children}</div>
     </div>
   );
 }

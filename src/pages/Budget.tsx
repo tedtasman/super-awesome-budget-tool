@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import "./styles/Budget.css";
+import PageCore from "../ui/PageCore";
 
 export default function Budget() {
   const navigate = useNavigate();
 
   return (
-    <div className="budget">
+    <PageCore pageTitle="Budget" actions={<>Test</>} tabs={<>Test2</>} className="budget">
       <table className="categories">
         <thead className="info">
           <tr>
@@ -78,6 +79,6 @@ export default function Budget() {
           </tr>
         </tbody>
       </table>
-    </div>
+    </PageCore>
   );
 }
