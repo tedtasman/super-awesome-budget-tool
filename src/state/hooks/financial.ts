@@ -1,5 +1,6 @@
 import { useFinancialStore } from "../store/financial";
 import { financialSelectors } from "../selectors/financial";
+import type { PaycheckDeduction } from "../store/expenses";
 
 // Financial store hooks
 export const useFederalTaxBrackets = () => useFinancialStore((state) => state.federalTaxBrackets);
@@ -38,5 +39,10 @@ export const useStateTax = () => useFinancialStore(financialSelectors.stateTax);
 export const useSocialSecurityTax = () => useFinancialStore(financialSelectors.socialSecurityTax);
 export const useMedicareTax = () => useFinancialStore(financialSelectors.medicareTax);
 export const useTotalTax = () => useFinancialStore(financialSelectors.totalTax);
+export const useNetIncome = () => useFinancialStore(financialSelectors.netIncome);
 export const useValueIfTaxed = (preTaxValue: number) => useFinancialStore(financialSelectors.valueIfTaxed(preTaxValue));
+export const usePaycheck = () => useFinancialStore(financialSelectors.paycheck);
+export const usePreTaxDeductionValuePerPaycheck = (deduction: PaycheckDeduction) =>
+  useFinancialStore((state) => financialSelectors.getPreTaxDeductionValuePerPaycheck(deduction, state));
+
 // End financial selectors hooks

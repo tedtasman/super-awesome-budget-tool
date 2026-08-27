@@ -1,5 +1,6 @@
 import type { FinancialStore } from "../store/financial";
 import { getFederal, getState, getSocialSecurity, getMedicare, getTotal } from "../calc/financial";
+import type { PaycheckDeduction } from "../store/expenses";
 
 export const financialSelectors = {
   federalTaxableIncome: (state: FinancialStore) =>
@@ -26,6 +27,8 @@ export const financialSelectors = {
       state,
     ),
 
+  netIncome: (state: FinancialStore) => state.salary - financialSelectors.totalTax(state),
+
   valueIfTaxed: (preTaxValue: number) => (state: FinancialStore) => {
     const currentTaxOwed = financialSelectors.totalTax(state);
     const taxIfNotDeducted = getTotal(
@@ -35,5 +38,11 @@ export const financialSelectors = {
       state,
     );
     return preTaxValue - (taxIfNotDeducted - currentTaxOwed);
+  },
+
+  paycheck: (state: FinancialStore) => financialSelectors.netIncome(state) / state.paychecksPerYear,
+
+  getPreTaxDeductionValuePerPaycheck: (deduction: PaycheckDeduction, state: FinancialStore) => {
+    return deduction.percentage * financialSelectors.paycheck(state) + deduction.flatAmount;
   },
 };

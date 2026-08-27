@@ -19,7 +19,7 @@ export default function Necessities() {
       className="expenses-base"
       actions={<TimeframeSelector timeframe={timeframe} setTimeFrame={setTimeFrame} />}
     >
-      <PreTaxExpenseTable timeframe={timeframe} addExpense={addNecessity} expenses={necessities} />
+      <PreTaxExpenseTable timeframe={timeframe} expenseHooks={necessitiesHooks} />
       <ExpenseTable timeframe={timeframe} addExpense={addNecessity} expenses={necessities} />
     </PageCore>
   );
