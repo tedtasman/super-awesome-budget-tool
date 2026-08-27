@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Creatable from "react-select/creatable";
-import { useFinancialStore } from "../../store/FinancialStore";
+import { useFinancialStore } from "../../state/store/financial";
 
 interface TimeframeOption {
   value: "week" | "month" | "year" | "paycheck" | number;
@@ -16,22 +16,14 @@ const UNIT_DAYS: Record<TimeUnit, number> = {
   year: 365,
 };
 
-function parseCustomInput(
-  input: string,
-): { days: number; label: string } | null {
-  const match = input
-    .trim()
-    .match(
-      /^(\d+(?:\.\d+)?)\s*(day|days|week|weeks|month|months|year|years)?$/i,
-    );
+function parseCustomInput(input: string): { days: number; label: string } | null {
+  const match = input.trim().match(/^(\d+(?:\.\d+)?)\s*(day|days|week|weeks|month|months|year|years)?$/i);
   if (!match) return null;
 
   const amount = parseFloat(match[1]);
   if (isNaN(amount) || amount <= 0) return null;
 
-  const rawUnit = (match[2] || "day")
-    .toLowerCase()
-    .replace(/s$/, "") as TimeUnit;
+  const rawUnit = (match[2] || "day").toLowerCase().replace(/s$/, "") as TimeUnit;
   const days = amount * UNIT_DAYS[rawUnit];
   const label = `${amount} ${rawUnit}${amount === 1 ? "" : "s"}`;
 
@@ -43,9 +35,7 @@ export default function TimeframeSelector({
   setTimeFrame,
 }: {
   timeframe: "week" | "month" | "year" | "paycheck" | number;
-  setTimeFrame: (
-    value: "week" | "month" | "year" | "paycheck" | number,
-  ) => void;
+  setTimeFrame: (value: "week" | "month" | "year" | "paycheck" | number) => void;
 }) {
   const paychecksPerYear = useFinancialStore((state) => state.paychecksPerYear);
   const [lastCustom, setLastCustom] = useState<{
@@ -76,8 +66,7 @@ export default function TimeframeSelector({
       ? { value: timeframe, label: lastCustom.label }
       : { value: timeframe, label: formatDaysToReadable(timeframe) });
 
-  const isValidNewOption = (inputValue: string) =>
-    parseCustomInput(inputValue) !== null;
+  const isValidNewOption = (inputValue: string) => parseCustomInput(inputValue) !== null;
 
   return (
     <Creatable<TimeframeOption>

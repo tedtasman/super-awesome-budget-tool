@@ -1,61 +1,31 @@
-import { useFinancialStore } from "../store/FinancialStore";
-import {
-  useNecessitiesStore,
-  useMiscStore,
-  useSavingsStore,
-} from "../store/ExpensesStore";
+import { useFinancialStore } from "../state/store/financial";
+import { useNecessitiesStore, useMiscStore, useSavingsStore } from "../state/store/expenses";
 
 export default function ParseJson({ contents }: { contents: string }) {
   // Financial store setters
-  const setFederalTaxBrackets = useFinancialStore(
-    (state) => state.setFederalTaxBrackets,
-  );
-  const setStateTaxBrackets = useFinancialStore(
-    (state) => state.setStateTaxBrackets,
-  );
-  const setSocialSecurityTaxRate = useFinancialStore(
-    (state) => state.setSocialSecurityTaxRate,
-  );
-  const setMedicareTaxRate = useFinancialStore(
-    (state) => state.setMedicareTaxRate,
-  );
-  const setFederalStandardDeduction = useFinancialStore(
-    (state) => state.setFederalStandardDeduction,
-  );
-  const setStateStandardDeduction = useFinancialStore(
-    (state) => state.setStateStandardDeduction,
-  );
-  const setAdditionalClaimedDeductions = useFinancialStore(
-    (state) => state.setAdditionalClaimedDeductions,
-  );
-  const setAdditionalWithholding = useFinancialStore(
-    (state) => state.setAdditionalWithholding,
-  );
+  const setFederalTaxBrackets = useFinancialStore((state) => state.setFederalTaxBrackets);
+  const setStateTaxBrackets = useFinancialStore((state) => state.setStateTaxBrackets);
+  const setSocialSecurityTaxRate = useFinancialStore((state) => state.setSocialSecurityTaxRate);
+  const setMedicareTaxRate = useFinancialStore((state) => state.setMedicareTaxRate);
+  const setFederalStandardDeduction = useFinancialStore((state) => state.setFederalStandardDeduction);
+  const setStateStandardDeduction = useFinancialStore((state) => state.setStateStandardDeduction);
+  const setAdditionalClaimedDeductions = useFinancialStore((state) => state.setAdditionalClaimedDeductions);
+  const setAdditionalWithholding = useFinancialStore((state) => state.setAdditionalWithholding);
   const setSalary = useFinancialStore((state) => state.setSalary);
-  const setPaychecksPerYear = useFinancialStore(
-    (state) => state.setPaychecksPerYear,
-  );
+  const setPaychecksPerYear = useFinancialStore((state) => state.setPaychecksPerYear);
   const setHourlyPay = useFinancialStore((state) => state.setHourlyPay);
   // End financial store setters
 
   // Necessities store setters
   const setNecessities = useNecessitiesStore((state) => state.setExpenses);
-  const setPreTaxNecessities = useNecessitiesStore(
-    (state) => state.setPreTaxDeductions,
-  );
-  const setPostTaxNecessities = useNecessitiesStore(
-    (state) => state.setPostTaxDeductions,
-  );
+  const setPreTaxNecessities = useNecessitiesStore((state) => state.setPreTaxDeductions);
+  const setPostTaxNecessities = useNecessitiesStore((state) => state.setPostTaxDeductions);
   // End necessities store setters
 
   // Savings store setters
   const setSavings = useSavingsStore((state) => state.setExpenses);
-  const setPreTaxSavings = useSavingsStore(
-    (state) => state.setPreTaxDeductions,
-  );
-  const setPostTaxSavings = useSavingsStore(
-    (state) => state.setPostTaxDeductions,
-  );
+  const setPreTaxSavings = useSavingsStore((state) => state.setPreTaxDeductions);
+  const setPostTaxSavings = useSavingsStore((state) => state.setPostTaxDeductions);
   // End savings store setters
 
   // Misc store setters

@@ -16,7 +16,7 @@ interface HourlyPayRate {
   hoursPerPaycheck: number;
 }
 
-interface FinancialStore {
+export interface FinancialStore {
   // Tax-related state
   federalTaxBrackets: FederalTaxBracket[];
   setFederalTaxBrackets: (brackets: FederalTaxBracket[]) => void;
@@ -34,6 +34,8 @@ interface FinancialStore {
   setAdditionalClaimedDeductions: (deductions: number) => void;
   additionalWithholding: number;
   setAdditionalWithholding: (withholding: number) => void;
+  ficaDeductions: number;
+  setFicaDeductions: (deductions: number) => void;
   // End tax-related state
 
   // Income-related state
@@ -75,6 +77,9 @@ const createFinancialStore: StateCreator<FinancialStore> = (set) => ({
   additionalWithholding: 0,
   setAdditionalWithholding: (withholding) =>
     set({ additionalWithholding: withholding }),
+
+  ficaDeductions: 0,
+  setFicaDeductions: (deductions) => set({ ficaDeductions: deductions }),
   // End tax-related state
 
   // Begin income-related state

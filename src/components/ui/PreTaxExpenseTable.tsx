@@ -67,9 +67,10 @@ export default function ExpenseTable({ timeframe, addExpense, expenses }: Expens
       <thead className="header">
         <tr>
           <th>Name</th>
-          <th>Cost</th>
-          <th>Frequency</th>
-          <th>Cost per {timeframe}</th>
+          <th>Percent of Paycheck</th>
+          <th>Flat Amount per Paycheck</th>
+          <th>Pre Tax Value per {timeframe}</th>
+          <th>Post Tax Value per {timeframe}</th>
           <th className="hidden"></th>
         </tr>
       </thead>
@@ -80,6 +81,7 @@ export default function ExpenseTable({ timeframe, addExpense, expenses }: Expens
             <td>${expense.cost.toFixed(2)}</td>
             <td>{expense.frequencyDays} days</td>
             <td>${calculatePeriodicCost(expense.cost, expense.frequencyDays).toFixed(2)}</td>
+            <td>test</td>
             <td className={adding ? "hidden" : "plus"}>
               <button onClick={() => setAdding(true)}>
                 <FontAwesomeIcon icon={faPlus} />
@@ -113,6 +115,7 @@ export default function ExpenseTable({ timeframe, addExpense, expenses }: Expens
             />
           </td>
           <td></td>
+          <td></td>
           <td>
             <button onClick={handleAddExpense} className={addReady ? "ready" : ""} disabled={noExpenses && !addReady}>
               {addReady || noExpenses ? "Add" : "Cancel"}
@@ -124,6 +127,7 @@ export default function ExpenseTable({ timeframe, addExpense, expenses }: Expens
           <td></td>
           <td></td>
           <td>{`$${totalPeriodicCost.toFixed(2)}`}</td>
+          <td></td>
         </tr>
       </tbody>
     </table>

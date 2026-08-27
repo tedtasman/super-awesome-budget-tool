@@ -1,24 +1,22 @@
-import { useNecessitiesStore } from "../../store/ExpensesStore";
+import { useNecessitiesStore } from "../../state/store/expenses";
 import { useState } from "react";
 import ExpenseTable from "../ui/ExpenseTable";
 import TimeframeSelector from "../ui/TimeframeSelector";
+import PreTaxExpenseTable from "../ui/PreTaxExpenseTable";
+
+import "../../styles/pages/Expenses.css";
 
 export default function Necessities() {
   const necessities = useNecessitiesStore((state) => state.expenses);
   const addNecessity = useNecessitiesStore((state) => state.addExpense);
 
-  const [timeframe, setTimeFrame] = useState<
-    "week" | "month" | "year" | "paycheck" | number
-  >("month");
+  const [timeframe, setTimeFrame] = useState<"week" | "month" | "year" | "paycheck" | number>("month");
 
   return (
-    <>
+    <div className="expenses-base">
       <TimeframeSelector timeframe={timeframe} setTimeFrame={setTimeFrame} />
-      <ExpenseTable
-        timeframe={timeframe}
-        addExpense={addNecessity}
-        expenses={necessities}
-      />
-    </>
+      <PreTaxExpenseTable timeframe={timeframe} addExpense={addNecessity} expenses={necessities} />
+      <ExpenseTable timeframe={timeframe} addExpense={addNecessity} expenses={necessities} />
+    </div>
   );
 }
