@@ -14,7 +14,7 @@ export interface PaycheckDeduction {
   flatAmount: number;
 }
 
-interface ExpensesStore {
+export interface ExpensesStore {
   // Expenses-related state
   expenses: Record<string, Expense>;
   setExpenses: (expenses: Record<string, Expense>) => void;
@@ -24,26 +24,16 @@ interface ExpensesStore {
   // End expenses-related state
   // Pre-tax deductions-related state
   preTaxDeductions: Record<string, PaycheckDeduction>;
-  setPreTaxDeductions: (
-    preTaxDeductions: Record<string, PaycheckDeduction>,
-  ) => void;
+  setPreTaxDeductions: (preTaxDeductions: Record<string, PaycheckDeduction>) => void;
   addPreTaxDeduction: (deduction: PaycheckDeduction) => void;
   removePreTaxDeduction: (deductionId: string) => void;
-  updatePreTaxDeduction: (
-    deductionId: string,
-    updatedDeduction: Partial<PaycheckDeduction>,
-  ) => void;
+  updatePreTaxDeduction: (deductionId: string, updatedDeduction: Partial<PaycheckDeduction>) => void;
   // Post-tax deductions-related state
   postTaxDeductions: Record<string, PaycheckDeduction>;
-  setPostTaxDeductions: (
-    postTaxDeductions: Record<string, PaycheckDeduction>,
-  ) => void;
+  setPostTaxDeductions: (postTaxDeductions: Record<string, PaycheckDeduction>) => void;
   addPostTaxDeduction: (deduction: PaycheckDeduction) => void;
   removePostTaxDeduction: (deductionId: string) => void;
-  updatePostTaxDeduction: (
-    deductionId: string,
-    updatedDeduction: Partial<PaycheckDeduction>,
-  ) => void;
+  updatePostTaxDeduction: (deductionId: string, updatedDeduction: Partial<PaycheckDeduction>) => void;
   // End post-tax deductions-related state
 }
 
