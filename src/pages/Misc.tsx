@@ -19,7 +19,7 @@ export default function Misc() {
       className="expenses-base"
       actions={<TimeframeSelector timeframe={timeframe} setTimeFrame={setTimeFrame} />}
     >
-      <PreTaxExpenseTable timeframe={timeframe} addExpense={addMisc} expenses={miscs} />
+      <PreTaxExpenseTable timeframe={timeframe} expenseHooks={miscHooks} />
       <ExpenseTable timeframe={timeframe} addExpense={addMisc} expenses={miscs} />
     </PageCore>
   );

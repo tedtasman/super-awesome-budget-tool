@@ -19,7 +19,7 @@ export default function Savings() {
       className="expenses-base"
       actions={<TimeframeSelector timeframe={timeframe} setTimeFrame={setTimeFrame} />}
     >
-      <PreTaxExpenseTable timeframe={timeframe} addExpense={addSaving} expenses={savings} />
+      <PreTaxExpenseTable timeframe={timeframe} expenseHooks={savingsHooks} />
       <ExpenseTable timeframe={timeframe} addExpense={addSaving} expenses={savings} />
     </PageCore>
   );
