@@ -42,7 +42,7 @@ export function ExpenseRow({ interval, expense, adding, setAdding }: ExpenseRowP
     <tr key={expense.id} className="expense">
       <td>{expense.name}</td>
       <td>${expense.amount.periodicCost.toFixed(2)}</td>
-      <td>{interval}</td>
+      <td>{expense.amount.periodicDays} days</td>
       <td>${calculateIntervalCost(getYearlyValue(expense, incomes), interval).toFixed(2)}</td>
       <td className={adding ? "hidden" : "plus"}>
         <button onClick={() => setAdding(true)}>
