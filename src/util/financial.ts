@@ -1,5 +1,5 @@
-import { getTotal } from "../state/calc/financial";
-import type { FinancialStore } from "../state/store/financial";
+import { getTotal } from "../state/calculators";
+import type { FinancialStore } from "../state/store";
 
 export function calculateTaxIfNotDeducted(
   preTaxValue: number,

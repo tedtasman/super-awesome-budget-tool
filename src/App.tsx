@@ -7,10 +7,7 @@ import BaseLayout from "./ui/BaseLayout";
 import Home from "./pages/Home";
 import Budget from "./pages/Budget";
 import Breakdown from "./pages/Breakdown";
-import Necessities from "./pages/Necessities";
-import Savings from "./pages/Savings";
 import Taxes from "./pages/Taxes";
-import Misc from "./pages/Misc";
 
 function App() {
   const [currentPage, setCurrentPage] = React.useState("home");
@@ -40,9 +37,6 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/budget" element={<Budget />} />
           <Route path="/breakdown" element={<Breakdown />} />
-          <Route path="/necessities" element={<Necessities />} />
-          <Route path="/savings" element={<Savings />} />
-          <Route path="/misc" element={<Misc />} />
           <Route path="/taxes" element={<Taxes />} />
         </Routes>
       </BaseLayout>

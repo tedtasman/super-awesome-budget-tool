@@ -7,7 +7,7 @@ import {
   useSetPaychecksPerYear,
   useSetSalary,
   useValueIfTaxed,
-} from "../state/hooks/financial";
+} from "../state/hook";
 import { useState } from "react";
 import { v4 } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

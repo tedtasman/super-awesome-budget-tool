@@ -1,5 +1,5 @@
 import type { Expense } from "../state/store/expenses";
-import { useFinancialStore } from "../state/store/financial";
+import { useFinancialStore } from "../state/store";
 import { useState } from "react";
 import { v4 } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

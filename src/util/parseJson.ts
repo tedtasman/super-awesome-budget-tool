@@ -1,4 +1,4 @@
-import { useFinancialStore } from "../state/store/financial";
+import { useFinancialStore } from "../state/store";
 import { useNecessitiesStore, useMiscStore, useSavingsStore } from "../state/store/expenses";
 
 export default function ParseJson({ contents }: { contents: string }) {
