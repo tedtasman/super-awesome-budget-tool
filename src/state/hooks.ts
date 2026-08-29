@@ -1,30 +1,40 @@
-import { useFinancialStore } from "./store";
+import { useStore } from "./store";
 import { select } from "./select";
 
 /* Hooks for concise access to the financial store and selectors. */
+/* Names sorted alphabetically to please my brain */
 
 /* ======================== Data Hooks ======================== */
 /* ----- Store ----- */
-export const useIncomes = () => useFinancialStore((s) => Object.values(s.incomes));
-export const useExpenses = () => useFinancialStore((s) => Object.values(s.expenses));
-export const useTaxRoutes = () => useFinancialStore((s) => Object.values(s.taxRoutes));
+export const useExpenses = () => useStore((s) => Object.values(s.expenses));
+export const useIncomes = () => useStore((s) => Object.values(s.incomes));
+export const useTaxRoutes = () => useStore((s) => Object.values(s.taxRoutes));
 /*  ----- End store ----- */
 
 /* ----- Select ----- */
-export const incomesForRoute = (routeId: string) => useFinancialStore(select.incomesForRoute(routeId));
-export const expensesForRoute = (routeId: string) => useFinancialStore(select.expensesForRoute(routeId));
-export const taxOwedForRoute = (routeId: string) => useFinancialStore(select.taxOwedForRoute(routeId));
-export const postTaxIncome = () => useFinancialStore(select.postTaxIncome);
+export const useExpensesForRoute = (routeId: string) => useStore(select.expensesForRoute(routeId));
+export const useExpenseValueIfTaxed = (expenseId: string) => useStore(select.expenseValueIfTaxed(expenseId));
+export const useIncomesForRoute = (routeId: string) => useStore(select.incomesForRoute(routeId));
+export const usePostTaxIncome = () => useStore(select.postTaxIncome);
+export const useTaxOwedForRoute = (routeId: string) => useStore(select.taxOwedForRoute(routeId));
+export const useTaxOwedForRouteWithoutExpenses = (routeId: string, expenseIds: string[]) =>
+  useStore(select.taxOwedForRouteWithoutExpenses(routeId, expenseIds));
+
+export const useTotalIncomePreTax = () => useStore(select.totalIncomePreTax);
+export const useTotalTaxOwed = () => useStore(select.totalTaxOwed);
+export const useTotalTaxOwedWithoutExpenses = (expenseIds: string[]) =>
+  useStore(select.totalTaxOwedWithoutExpenses(expenseIds));
+export const useYearlyValue = (expenseId: string) => useStore(select.yearlyValue(expenseId));
 /* ---- End select ----- */
 /* ======================== End Data Hooks ======================== */
 
 /* ======================== Action Hooks ======================== */
 /* ----- Store ----- */
-export const useSetIncome = () => useFinancialStore((s) => s.setIncome);
-export const useRemoveIncome = () => useFinancialStore((s) => s.removeIncome);
-export const useSetExpense = () => useFinancialStore((s) => s.setExpense);
-export const useRemoveExpense = () => useFinancialStore((s) => s.removeExpense);
-export const useSetTaxRoute = () => useFinancialStore((s) => s.setTaxRoute);
-export const useRemoveTaxRoute = () => useFinancialStore((s) => s.removeTaxRoute);
+export const useRemoveIncome = () => useStore((s) => s.removeIncome);
+export const useRemoveExpense = () => useStore((s) => s.removeExpense);
+export const useRemoveTaxRoute = () => useStore((s) => s.removeTaxRoute);
+export const useSetExpense = () => useStore((s) => s.setExpense);
+export const useSetIncome = () => useStore((s) => s.setIncome);
+export const useSetTaxRoute = () => useStore((s) => s.setTaxRoute);
 /* ----- End store ----- */
 /* ======================== End Action Hooks ======================== */

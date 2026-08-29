@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Creatable from "react-select/creatable";
-import { useFinancialStore } from "../state/store";
+import { useStore } from "../state/store";
 
 interface TimeframeOption {
   value: "week" | "month" | "year" | "paycheck" | number;
@@ -37,7 +37,7 @@ export default function TimeframeSelector({
   timeframe: "week" | "month" | "year" | "paycheck" | number;
   setTimeFrame: (value: "week" | "month" | "year" | "paycheck" | number) => void;
 }) {
-  const paychecksPerYear = useFinancialStore((state) => state.paychecksPerYear);
+  const paychecksPerYear = useStore((state) => state.paychecksPerYear);
   const [lastCustom, setLastCustom] = useState<{
     value: number;
     label: string;

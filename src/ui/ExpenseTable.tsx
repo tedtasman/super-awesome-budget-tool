@@ -1,5 +1,5 @@
 import type { Expense } from "../state/store/expenses";
-import { useFinancialStore } from "../state/store";
+import { useStore } from "../state/store";
 import { useState } from "react";
 import { v4 } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,7 +15,7 @@ interface ExpenseTableProps {
 }
 
 export default function ExpenseTable({ timeframe, addExpense, expenses }: ExpenseTableProps) {
-  const paychecksPerYear = useFinancialStore((state) => state.paychecksPerYear);
+  const paychecksPerYear = useStore((state) => state.paychecksPerYear);
 
   const [newExpenseName, setNewExpenseName] = useState("");
   const [newExpenseCost, setNewExpenseCost] = useState(0);

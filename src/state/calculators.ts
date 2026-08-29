@@ -4,8 +4,8 @@ import type { TaxBracket } from "./interface/taxBracket";
 
 /**
  *
- * @param income value to tax
- * @param brackets tax brackets
+ * @param income
+ * @param brackets
  * @returns tax owed (NOT post-tax income)
  */
 export function applyTaxBracket(income: number, brackets: TaxBracket[]): number {
