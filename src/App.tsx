@@ -1,13 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import "./App.css";
-
 import BaseLayout from "./ui/BaseLayout";
 import Home from "./pages/Home";
-import Budget from "./pages/Budget";
-import Breakdown from "./pages/Breakdown";
-import Taxes from "./pages/Taxes";
+import { pages } from "./constants/pages";
+
+import "./App.css";
 
 function App() {
   const [currentPage, setCurrentPage] = React.useState("home");
@@ -35,9 +33,9 @@ function App() {
       <BaseLayout currentPage={currentPage} setCurrentPage={setCurrentPage} theme={theme} toggleTheme={toggleTheme}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/budget" element={<Budget />} />
-          <Route path="/breakdown" element={<Breakdown />} />
-          <Route path="/taxes" element={<Taxes />} />
+          {pages.map((page) => (
+            <Route key={page.name} path={page.path} element={<page.component />} />
+          ))}
         </Routes>
       </BaseLayout>
     </Router>

@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import { pages } from "../constants/pages";
+
 import "./styles/Sidebar.css";
 
 export default function Sidebar({
@@ -13,15 +15,6 @@ export default function Sidebar({
   theme: "light" | "dark";
   toggleTheme: () => void;
 }) {
-  const pages = [
-    { name: "Budget", path: "/budget" },
-    { name: "Breakdown", path: "/breakdown" },
-    { name: "Necessities", path: "/necessities" },
-    { name: "Savings", path: "/savings" },
-    { name: "Misc", path: "/misc" },
-    { name: "Taxes", path: "/taxes" },
-  ];
-
   return (
     <div className="sb">
       <div className="top">
