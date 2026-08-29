@@ -8,7 +8,6 @@ import { pages } from "./constants/pages";
 import "./App.css";
 
 function App() {
-  const [currentPage, setCurrentPage] = React.useState("home");
   const [theme, setTheme] = React.useState<"light" | "dark">(() => {
     const savedTheme = window.localStorage.getItem("theme");
 
@@ -30,7 +29,7 @@ function App() {
 
   return (
     <Router basename="/">
-      <BaseLayout currentPage={currentPage} setCurrentPage={setCurrentPage} theme={theme} toggleTheme={toggleTheme}>
+      <BaseLayout theme={theme} toggleTheme={toggleTheme}>
         <Routes>
           <Route path="/" element={<Home />} />
           {pages.map((page) => (

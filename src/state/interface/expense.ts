@@ -1,5 +1,5 @@
 export type ExpenseAmount =
-  | { kind: "flat"; yearlyValue: number; frequencyDays: number }
+  | { kind: "flat"; periodicCost: number; periodicDays: number }
   | { kind: "paycheckPercentage"; incomeId: string; percentage: number };
 
 export interface Expense {

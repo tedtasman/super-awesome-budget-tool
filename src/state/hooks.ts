@@ -6,9 +6,9 @@ import { select } from "./select";
 
 /* ======================== Data Hooks ======================== */
 /* ----- Store ----- */
-export const useExpenses = () => useStore((s) => Object.values(s.expenses));
-export const useIncomes = () => useStore((s) => Object.values(s.incomes));
-export const useTaxRoutes = () => useStore((s) => Object.values(s.taxRoutes));
+export const useExpenses = () => useStore((s) => s.expenses);
+export const useIncomes = () => useStore((s) => s.incomes);
+export const useTaxRoutes = () => useStore((s) => s.taxRoutes);
 /*  ----- End store ----- */
 
 /* ----- Select ----- */
@@ -24,7 +24,6 @@ export const useTotalIncomePreTax = () => useStore(select.totalIncomePreTax);
 export const useTotalTaxOwed = () => useStore(select.totalTaxOwed);
 export const useTotalTaxOwedWithoutExpenses = (expenseIds: string[]) =>
   useStore(select.totalTaxOwedWithoutExpenses(expenseIds));
-export const useYearlyValue = (expenseId: string) => useStore(select.yearlyValue(expenseId));
 /* ---- End select ----- */
 /* ======================== End Data Hooks ======================== */
 

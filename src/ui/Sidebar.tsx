@@ -6,31 +6,22 @@ import "./styles/Sidebar.css";
 
 export default function Sidebar({
   currentPage,
-  setCurrentPage,
   theme,
   toggleTheme,
 }: {
   currentPage: string;
-  setCurrentPage: (page: string) => void;
   theme: "light" | "dark";
   toggleTheme: () => void;
 }) {
   return (
     <div className="sb">
       <div className="top">
-        <Link to="/" onClick={() => setCurrentPage("home")}>
-          Home
-        </Link>
+        <Link to="/">Home</Link>
       </div>
       <div className="bottom">
         <div className="pages">
           {pages.map((page) => (
-            <Link
-              key={page.name}
-              to={page.path}
-              onClick={() => setCurrentPage(page.name)}
-              className={`link ${page.name === currentPage ? "active" : ""}`}
-            >
+            <Link key={page.name} to={page.path} className={`link ${page.path === currentPage ? "active" : ""}`}>
               {page.name}
             </Link>
           ))}

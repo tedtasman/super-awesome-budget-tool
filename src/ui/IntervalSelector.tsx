@@ -1,9 +1,8 @@
 import { useState } from "react";
 import Creatable from "react-select/creatable";
-import { useStore } from "../state/store";
 
-interface TimeframeOption {
-  value: "week" | "month" | "year" | "paycheck" | number;
+interface IntervalOption {
+  value: "week" | "month" | "year" | number;
   label: string;
 }
 
@@ -30,24 +29,22 @@ function parseCustomInput(input: string): { days: number; label: string } | null
   return { days, label };
 }
 
-export default function TimeframeSelector({
-  timeframe,
-  setTimeFrame,
+export default function IntervalSelector({
+  interval,
+  setInterval,
 }: {
-  timeframe: "week" | "month" | "year" | "paycheck" | number;
-  setTimeFrame: (value: "week" | "month" | "year" | "paycheck" | number) => void;
+  interval: "week" | "month" | "year" | number;
+  setInterval: (value: "week" | "month" | "year" | number) => void;
 }) {
-  const paychecksPerYear = useStore((state) => state.paychecksPerYear);
   const [lastCustom, setLastCustom] = useState<{
     value: number;
     label: string;
   } | null>(null);
 
-  const options: TimeframeOption[] = [
+  const options: IntervalOption[] = [
     { value: "week", label: "Week" },
     { value: "month", label: "Month" },
     { value: "year", label: "Year" },
-    { value: "paycheck", label: "Paycheck" },
   ];
 
   const formatDaysToReadable = (days: number | string): string => {
@@ -55,25 +52,24 @@ export default function TimeframeSelector({
     if (days === 7) return "Week";
     if (days === 30) return "Month";
     if (days === 365) return "Year";
-    if (Math.abs(days - 365 / paychecksPerYear) < 0.01) return "Paycheck";
     return `${days} days`;
   };
 
-  const presetMatch = options.find((opt) => opt.value === timeframe);
-  const currentValue: TimeframeOption =
+  const presetMatch = options.find((opt) => opt.value === interval);
+  const currentValue: IntervalOption =
     presetMatch ||
-    (lastCustom && lastCustom.value === timeframe
-      ? { value: timeframe, label: lastCustom.label }
-      : { value: timeframe, label: formatDaysToReadable(timeframe) });
+    (lastCustom && lastCustom.value === interval
+      ? { value: interval, label: lastCustom.label }
+      : { value: interval, label: formatDaysToReadable(interval) });
 
   const isValidNewOption = (inputValue: string) => parseCustomInput(inputValue) !== null;
 
   return (
-    <Creatable<TimeframeOption>
+    <Creatable<IntervalOption>
       value={currentValue}
       onChange={(selectedOption) => {
         if (!selectedOption) return;
-        const validPeriods = ["week", "month", "year", "paycheck"];
+        const validPeriods = ["week", "month", "year"];
         if (
           validPeriods.includes(selectedOption.value as string) ||
           (typeof selectedOption.value === "number" && selectedOption.value > 0)
@@ -81,7 +77,7 @@ export default function TimeframeSelector({
           if (typeof selectedOption.value === "string") {
             setLastCustom(null);
           }
-          setTimeFrame(selectedOption.value);
+          setInterval(selectedOption.value);
         }
       }}
       options={options}
@@ -90,7 +86,7 @@ export default function TimeframeSelector({
         const parsed = parseCustomInput(inputValue);
         if (parsed) {
           setLastCustom({ value: parsed.days, label: parsed.label });
-          setTimeFrame(parsed.days);
+          setInterval(parsed.days);
         }
       }}
     />

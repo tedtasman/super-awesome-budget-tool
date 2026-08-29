@@ -1,4 +1,4 @@
-import { applyTaxBracket } from "./calculators";
+import { applyTaxBracket, getYearlyValue } from "./calculators";
 import type { Store } from "./store";
 
 /* Selectors for complex store operations. */
@@ -8,8 +8,9 @@ export const select = {
     Object.values(s.expenses).filter((expense) => expense.taxRouteIds.includes(routeId)),
 
   expenseValueIfTaxed: (expenseId: string) => (s: Store) => {
+    const expense = s.expenses[expenseId];
     return (
-      select.yearlyValue(expenseId)(s) - (select.totalTaxOwedWithoutExpenses([expenseId])(s) - select.totalTaxOwed(s))
+      getYearlyValue(expense, s.incomes) - (select.totalTaxOwedWithoutExpenses([expenseId])(s) - select.totalTaxOwed(s))
     );
   },
 
@@ -24,7 +25,7 @@ export const select = {
     const route = s.taxRoutes[routeId];
     const incomes = select.incomesForRoute(routeId)(s);
     const expenses = select.expensesForRoute(routeId)(s);
-    const totalDeductions = expenses.reduce((sum, e) => sum + select.yearlyValue(e.id)(s), 0);
+    const totalDeductions = expenses.reduce((sum, e) => sum + getYearlyValue(e, s.incomes), 0);
     const totalIncome = incomes.reduce((sum, i) => sum + i.value, 0);
     return applyTaxBracket(totalIncome - totalDeductions, route.brackets);
   },
@@ -36,7 +37,7 @@ export const select = {
     const expenses = select
       .expensesForRoute(routeId)(s)
       .filter((e) => !expenseIds.includes(e.id));
-    const totalDeductions = expenses.reduce((sum, e) => sum + select.yearlyValue(e.id)(s), 0);
+    const totalDeductions = expenses.reduce((sum, e) => sum + getYearlyValue(e, s.incomes), 0);
     const totalIncome = incomes.reduce((sum, i) => sum + i.value, 0);
     return applyTaxBracket(totalIncome - totalDeductions, route.brackets);
   },
@@ -51,17 +52,5 @@ export const select = {
       (sum, route) => sum + select.taxOwedForRouteWithoutExpenses(route.id, expenseIds)(s),
       0,
     );
-  },
-
-  yearlyValue: (expenseId: string) => (s: Store) => {
-    const expense = s.expenses[expenseId];
-    switch (expense.amount.kind) {
-      case "flat":
-        return expense.amount.yearlyValue;
-      case "paycheckPercentage":
-        return s.incomes[expense.amount.incomeId].value * expense.amount.percentage;
-      default:
-        throw new Error(`Unknown expense amount kind: ${(expense.amount as any).kind}`);
-    }
   },
 };
