@@ -59,7 +59,6 @@ interface ExpenseTableProps {
 
 export default function ExpenseTable({ interval }: ExpenseTableProps) {
   const expenses = useExpenses();
-  const incomes = useIncomes();
   const setExpense = useSetExpense();
 
   const [newExpenseName, setNewExpenseName] = useState("");
