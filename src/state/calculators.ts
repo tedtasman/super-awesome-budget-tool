@@ -1,5 +1,5 @@
 import type { Expense } from "./interface/expense";
-import type { Income } from "./interface/income";
+import type { Income, IncomeStream } from "./interface/income";
 import type { TaxBracket } from "./interface/taxBracket";
 
 /* Helper calculator functions for financial calculations. Called in selectors */
@@ -32,13 +32,37 @@ export function applyTaxBracket(income: number, brackets: TaxBracket[]): number 
  * @param incomes
  * @returns The yearly value of the expense.
  */
-export function getYearlyValue(expense: Expense, incomes: Record<string, Income>): number {
+export function getYearlyExpenseValue(expense: Expense, incomes: Record<string, Income>): number {
   switch (expense.amount.kind) {
     case "flat":
       return expense.amount.periodicCost * (365 / expense.amount.periodicDays);
     case "paycheckPercentage":
-      return incomes[expense.amount.incomeId].value * expense.amount.percentage;
+      return getYearlyIncomeValue(incomes[expense.amount.incomeId]) * expense.amount.percentage;
     default:
-      throw new Error(`Unknown expense amount kind: ${(expense.amount as any).kind}`);
+      throw new Error(`Unknown expense amount kind: ${JSON.stringify(expense.amount)}`);
   }
+}
+
+export function getYearlyStreamValue(stream: IncomeStream, payPeriodDays: number): number {
+  switch (stream.kind) {
+    case "hourly":
+      switch (stream.streamCadence.kind) {
+        case "everyPaycheck":
+          return stream.hourlyRate * stream.hoursPerPeriod * Math.floor(365 / payPeriodDays);
+        case "everyNDays":
+          return stream.hourlyRate * stream.hoursPerPeriod * (365 / stream.streamCadence.n);
+        default:
+          throw new Error(`Unknown stream cadence kind: ${JSON.stringify(stream.streamCadence)}`);
+      }
+    case "salary":
+      return stream.annualValue;
+    default:
+      throw new Error(`Unknown income stream kind: ${JSON.stringify(stream)}`);
+  }
+}
+
+export function getYearlyIncomeValue(income: Income): number {
+  return Object.values(income.streams).reduce((total, stream) => {
+    return total + getYearlyStreamValue(stream, income.payPeriodDays);
+  }, 0);
 }

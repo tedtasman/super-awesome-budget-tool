@@ -5,6 +5,6 @@ export type ExpenseAmount =
 export interface Expense {
   id: string;
   name: string;
-  taxRouteIds: string[];
+  taxRouteIds: Set<string>;
   amount: ExpenseAmount;
 }

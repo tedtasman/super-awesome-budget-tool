@@ -8,7 +8,7 @@ import type { Expense } from "../state/interface/expense";
 import IntervalSelector from "./IntervalSelector";
 
 import "./styles/ExpenseTable.css";
-import { getYearlyValue } from "../state/calculators";
+import { getYearlyExpenseValue } from "../state/calculators";
 
 const calculateIntervalCost = (yearlyCost: number, interval: "week" | "month" | "year" | number) => {
   const daysInPeriod = convertIntervalToDays(interval);
@@ -43,7 +43,7 @@ export function ExpenseRow({ interval, expense, adding, setAdding }: ExpenseRowP
       <td>{expense.name}</td>
       <td>${expense.amount.periodicCost.toFixed(2)}</td>
       <td>{expense.amount.periodicDays} days</td>
-      <td>${calculateIntervalCost(getYearlyValue(expense, incomes), interval).toFixed(2)}</td>
+      <td>${calculateIntervalCost(getYearlyExpenseValue(expense, incomes), interval).toFixed(2)}</td>
       <td className={adding ? "hidden" : "plus"}>
         <button onClick={() => setAdding(true)}>
           <FontAwesomeIcon icon={faPlus} />
@@ -82,7 +82,7 @@ export default function ExpenseTable({ interval }: ExpenseTableProps) {
       setExpense({
         id: v4(),
         name: newExpenseName,
-        taxRouteIds: [],
+        taxRouteIds: new Set<string>(),
         amount: {
           kind: "flat",
           periodicCost: newExpensePeriodicCost,

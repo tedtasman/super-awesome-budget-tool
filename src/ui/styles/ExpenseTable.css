@@ -25,6 +25,16 @@
     }
   }
 
+  & .body > .separator {
+    background-color: var(--background-200);
+
+    td {
+      text-align: center;
+      font-weight: bold;
+      border-bottom: 1px solid var(--text);
+    }
+  }
+
   & .body > tr:nth-last-child(3) {
     .plus {
       display: block;
@@ -86,10 +96,10 @@
   & .total {
     font-weight: bold;
 
-    background-color: var(--background-100);
+    background-color: var(--background-200);
 
     td {
-      border-top: 1px solid black;
+      border-top: 1px solid var(--text);
     }
   }
 }

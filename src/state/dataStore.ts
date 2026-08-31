@@ -1,12 +1,12 @@
 import type { Expense } from "./interface/expense";
-import type { Income } from "./interface/income";
+import type { Income, IncomeStream } from "./interface/income";
 import type { TaxRoute } from "./interface/taxRoute";
 import { create } from "zustand";
 
 /* Zustand store for managing financial data: incomes, expenses, and tax routes. */
 /* Names sorted alphabetically to please my brain */
 
-export interface Store {
+export interface DataStore {
   expenses: Record<string, Expense>;
   incomes: Record<string, Income>;
   taxRoutes: Record<string, TaxRoute>;
@@ -14,15 +14,28 @@ export interface Store {
   removeExpense: (expenseId: string) => void;
   removeIncome: (incomeId: string) => void;
   removeTaxRoute: (taxRouteId: string) => void;
+
   setExpense: (expense: Expense) => void;
   setIncome: (income: Income) => void;
+  setIncomeStream: (incomeId: string, stream: IncomeStream) => void;
   setTaxRoute: (taxRoute: TaxRoute) => void;
 }
 
-export const useStore = create<Store>((set) => ({
+export const useDataStore = create<DataStore>((set) => ({
   expenses: {},
   incomes: {},
   taxRoutes: {},
+
+  setIncomeStream: (incomeId: string, stream: IncomeStream) =>
+    set((s) => {
+      const income = s.incomes[incomeId];
+      return {
+        incomes: {
+          ...s.incomes,
+          [incomeId]: { ...income, streams: { ...income.streams, [stream.id]: stream } },
+        },
+      };
+    }),
 
   removeExpense: (id) =>
     set((s) => {
