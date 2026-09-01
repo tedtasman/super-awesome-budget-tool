@@ -14,7 +14,6 @@ export default function BaseLayout({
 }) {
   const location = useLocation();
   const currentPage = location.pathname;
-  console.log("currentPage", currentPage);
   return (
     <div className="base-layout">
       <Sidebar currentPage={currentPage} theme={theme} toggleTheme={toggleTheme} />

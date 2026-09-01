@@ -3,12 +3,12 @@ import { v4 } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import { useExpenses, useIncomes, useSetExpense } from "../state/hooks";
-import type { Expense } from "../state/interface/expense";
-import IntervalSelector from "./IntervalSelector";
+import { useExpenses, useIncomes, useSetExpense } from "../../state/hooks";
+import type { Expense } from "../../state/interface/expense";
+import IntervalSelector from "../../ui/IntervalSelector";
 
-import "./styles/ExpenseTable.css";
-import { getYearlyExpenseValue } from "../state/calculators";
+import "./ExpenseTable.css";
+import { getYearlyExpenseValue } from "../../state/calc/amortize";
 
 const calculateIntervalCost = (yearlyCost: number, interval: "week" | "month" | "year" | number) => {
   const daysInPeriod = convertIntervalToDays(interval);
