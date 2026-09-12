@@ -2,32 +2,30 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import { useSetIncomeStream } from "../../state/hooks";
+import { useSetIncomeLine } from "../../state/hooks";
 
 import "../expenses/ExpenseTable.css";
-import type { Income, IncomeStream, StreamCadence } from "../../state/interface/income";
-import { getMonthlyStreamTotals } from "../../state/calc/occurrences";
+import type { Income, IncomeLine, LineCadence } from "../../state/interface/income";
+import { getMonthlyLineTotals } from "../../state/calc/occurrences";
 
 interface IncomeRowProps {
-  stream: IncomeStream;
+  line: IncomeLine;
   adding: boolean;
   setAdding: (adding: boolean) => void;
   yearlyTotal: number;
 }
-function HourlyIncomeRow({ stream, adding, setAdding, yearlyTotal }: IncomeRowProps) {
-  if (stream.kind !== "hourly") {
-    throw new Error("HourlyIncomeRow can only be used with hourly income streams");
+function HourlyIncomeRow({ line, adding, setAdding, yearlyTotal }: IncomeRowProps) {
+  if (line.kind !== "hourly") {
+    throw new Error("HourlyIncomeRow can only be used with hourly income lines");
   }
 
   return (
-    <tr key={stream.id} className="expense">
+    <tr key={line.id} className="expense">
       <td></td>
-      <td>{stream.name}</td>
-      <td>${stream.hourlyRate.toFixed(2)}</td>
-      <td>{stream.hoursPerPeriod} hours per pay period</td>
-      <td>
-        {stream.streamCadence.kind === "everyPaycheck" ? "Every Paycheck" : `Every ${stream.streamCadence.n} Days`}
-      </td>
+      <td>{line.name}</td>
+      <td>${line.hourlyRate.toFixed(2)}</td>
+      <td>{line.hoursPerPeriod} hours per pay period</td>
+      <td>{line.cadence.kind === "everyPaycheck" ? "Every Paycheck" : `Every ${line.cadence.n} Days`}</td>
       <td>${yearlyTotal.toFixed(2)}</td>
       <td className={adding ? "hidden" : "plus"}>
         <button onClick={() => setAdding(true)}>
@@ -38,20 +36,18 @@ function HourlyIncomeRow({ stream, adding, setAdding, yearlyTotal }: IncomeRowPr
   );
 }
 
-function SalaryIncomeRow({ stream, adding, setAdding, yearlyTotal }: IncomeRowProps) {
-  if (stream.kind !== "salary") {
-    throw new Error("SalaryIncomeRow can only be used with salary income streams");
+function SalaryIncomeRow({ line, adding, setAdding, yearlyTotal }: IncomeRowProps) {
+  if (line.kind !== "salary") {
+    throw new Error("SalaryIncomeRow can only be used with salary income lines");
   }
 
   return (
-    <tr key={stream.id} className="expense">
+    <tr key={line.id} className="expense">
       <td></td>
-      <td>{stream.name}</td>
-      <td>${stream.annualValue.toFixed(2)}</td>
+      <td>{line.name}</td>
+      <td>${line.annualValue.toFixed(2)}</td>
       <td></td>
-      <td>
-        {stream.streamCadence.kind === "everyPaycheck" ? "Every Paycheck" : `Every ${stream.streamCadence.n} Days`}
-      </td>
+      <td>{line.cadence.kind === "everyPaycheck" ? "Every Paycheck" : `Every ${line.cadence.n} Days`}</td>
       <td>${yearlyTotal.toFixed(2)}</td>
       <td className={adding ? "hidden" : "plus"}>
         <button onClick={() => setAdding(true)}>
@@ -129,77 +125,77 @@ export default function YearlyIncome({ income, year }: YearlyIncomeProps) {
   // End computed local data
 
   // Store hooks
-  const setStream = useSetIncomeStream();
+  const setLine = useSetIncomeLine();
   // End store hooks
 
   // Computed store data
-  const streamsArray = Object.values(income.streams);
-  const hourlyStreams = streamsArray.filter((s) => s.kind === "hourly");
-  const salaryStreams = streamsArray.filter((s) => s.kind === "salary");
-  const hasStreams = streamsArray.length > 0;
-  const hasSalaryStreams = salaryStreams.length > 0;
-  const hasHourlyStreams = hourlyStreams.length > 0;
-  const yearlyTotals = streamsArray.map((stream) => ({
-    streamId: stream.id,
-    yearlyTotal: getMonthlyStreamTotals(income, stream, startOfYear, endOfYear).reduce(
+  const linesArray = Object.values(income.lines);
+  const hourlylines = linesArray.filter((s) => s.kind === "hourly");
+  const salarylines = linesArray.filter((s) => s.kind === "salary");
+  const haslines = linesArray.length > 0;
+  const hasSalarylines = salarylines.length > 0;
+  const hasHourlylines = hourlylines.length > 0;
+  const yearlyTotals = linesArray.map((line) => ({
+    lineId: line.id,
+    yearlyTotal: getMonthlyLineTotals(income, line, startOfYear, endOfYear).reduce(
       (sum, month) => sum + month.total,
       0,
     ),
   }));
   // End computed store data
 
-  // Adding stream state
+  // Adding line state
   const [adding, setAdding] = useState(false);
-  const [newStreamName, setNewStreamName] = useState("");
-  const [newStreamKind, setNewStreamKind] = useState<"hourly" | "salary">("hourly");
-  const [newStreamCadenceN, setNewStreamCadenceN] = useState(income.payPeriodDays);
+  const [newLineName, setNewLineName] = useState("");
+  const [newLineKind, setNewLineKind] = useState<"hourly" | "salary">("hourly");
+  const [newLineCadenceN, setNewLineCadenceN] = useState(income.payPeriodDays);
   const [newHourlyRate, setNewHourlyRate] = useState(0);
   const [newHoursPerPeriod, setNewHoursPerPeriod] = useState(0);
   const [newSalaryValue, setNewSalaryValue] = useState(0);
   const addReady =
-    newStreamName &&
-    ((newStreamKind === "hourly" && newHourlyRate > 0 && newHoursPerPeriod > 0) ||
-      (newStreamKind === "salary" && newSalaryValue > 0));
-  const newStreamCadence: StreamCadence =
-    newStreamCadenceN !== income.payPeriodDays
-      ? { kind: "everyNDays", n: newStreamCadenceN, anchorDate: income.anchorDate }
+    newLineName &&
+    ((newLineKind === "hourly" && newHourlyRate > 0 && newHoursPerPeriod > 0) ||
+      (newLineKind === "salary" && newSalaryValue > 0));
+  const newLineCadence: LineCadence =
+    newLineCadenceN !== income.payPeriodDays
+      ? { kind: "everyNDays", n: newLineCadenceN, anchorDate: income.anchorDate }
       : { kind: "everyPaycheck" };
 
-  const newStream: IncomeStream =
-    newStreamKind === "hourly"
+  const newLine: IncomeLine =
+    newLineKind === "hourly"
       ? {
           kind: "hourly",
           id: crypto.randomUUID(),
-          name: newStreamName,
+          name: newLineName,
           hourlyRate: newHourlyRate,
           hoursPerPeriod: newHoursPerPeriod,
-          streamCadence: newStreamCadence,
+          cadence: newLineCadence,
         }
       : {
           kind: "salary",
           id: crypto.randomUUID(),
-          name: newStreamName,
+          name: newLineName,
           annualValue: newSalaryValue,
-          streamCadence: newStreamCadence,
+          cadence: newLineCadence,
         };
-  // End adding stream state
+  // End adding line state
 
   // Handlers
-  const handleAddStream = () => {
+  const handleAddLine = () => {
     if (!addReady) {
       setAdding(false);
       return;
     }
 
-    setStream(income.id, newStream);
+    setLine(income.id, newLine);
 
     setAdding(false);
-    setNewStreamName("");
-    setNewStreamKind("hourly");
+    setNewLineName("");
+    setNewLineKind("hourly");
     setNewHourlyRate(0);
     setNewHoursPerPeriod(0);
     setNewSalaryValue(0);
-    setNewStreamCadenceN(income.payPeriodDays);
+    setNewLineCadenceN(income.payPeriodDays);
   };
   // End handlers
 
@@ -211,9 +207,9 @@ export default function YearlyIncome({ income, year }: YearlyIncomeProps) {
         </div>
         <table className="expense-table">
           <tbody className="body">
-            {hasSalaryStreams && (
+            {hasSalarylines && (
               <tr className="separator">
-                <td>Salary Streams:</td>
+                <td>Salary lines:</td>
                 <td>Name</td>
                 <td></td>
                 <td></td>
@@ -222,18 +218,18 @@ export default function YearlyIncome({ income, year }: YearlyIncomeProps) {
                 <td className="hidden"></td>
               </tr>
             )}
-            {salaryStreams.map((stream) => (
+            {salarylines.map((line) => (
               <SalaryIncomeRow
-                key={stream.id}
-                stream={stream}
+                key={line.id}
+                line={line}
                 adding={adding}
                 setAdding={setAdding}
-                yearlyTotal={yearlyTotals.find((t) => t.streamId === stream.id)?.yearlyTotal ?? 0}
+                yearlyTotal={yearlyTotals.find((t) => t.lineId === line.id)?.yearlyTotal ?? 0}
               />
             ))}
-            {hasHourlyStreams && (
+            {hasHourlylines && (
               <tr className="separator">
-                <td>Hourly Streams:</td>
+                <td>Hourly lines:</td>
                 <td>Name</td>
                 <td>Hourly Rate</td>
                 <td>Hours per Period</td>
@@ -242,18 +238,18 @@ export default function YearlyIncome({ income, year }: YearlyIncomeProps) {
                 <td className="hidden"></td>
               </tr>
             )}
-            {hourlyStreams.map((stream) => (
+            {hourlylines.map((line) => (
               <HourlyIncomeRow
-                key={stream.id}
-                stream={stream}
+                key={line.id}
+                line={line}
                 adding={adding}
                 setAdding={setAdding}
-                yearlyTotal={yearlyTotals.find((t) => t.streamId === stream.id)?.yearlyTotal ?? 0}
+                yearlyTotal={yearlyTotals.find((t) => t.lineId === line.id)?.yearlyTotal ?? 0}
               />
             ))}
-            <tr className={adding || !hasStreams ? "add" : "hidden"}>
+            <tr className={adding || !haslines ? "add" : "hidden"}>
               <td>
-                <select value={newStreamKind} onChange={(e) => setNewStreamKind(e.target.value as "hourly" | "salary")}>
+                <select value={newLineKind} onChange={(e) => setNewLineKind(e.target.value as "hourly" | "salary")}>
                   <option value="hourly">Hourly</option>
                   <option value="salary">Salary</option>
                 </select>
@@ -261,19 +257,19 @@ export default function YearlyIncome({ income, year }: YearlyIncomeProps) {
               <td>
                 <input
                   type="text"
-                  placeholder="Stream name"
-                  value={newStreamName}
-                  onChange={(e) => setNewStreamName(e.target.value)}
+                  placeholder="Line name"
+                  value={newLineName}
+                  onChange={(e) => setNewLineName(e.target.value)}
                 />
               </td>
-              {newStreamKind === "hourly" ? (
+              {newLineKind === "hourly" ? (
                 <AddHourlyForm
                   newHourlyRate={newHourlyRate}
                   setNewHourlyRate={setNewHourlyRate}
                   newHoursPerPeriod={newHoursPerPeriod}
                   setNewHoursPerPeriod={setNewHoursPerPeriod}
                 />
-              ) : newStreamKind === "salary" ? (
+              ) : newLineKind === "salary" ? (
                 <AddSalaryForm newSalaryValue={newSalaryValue} setNewSalaryValue={setNewSalaryValue} />
               ) : (
                 <td></td>
@@ -282,17 +278,13 @@ export default function YearlyIncome({ income, year }: YearlyIncomeProps) {
                 <input
                   type="number"
                   placeholder="Cadence"
-                  onChange={(e) => setNewStreamCadenceN(Number(e.target.value))}
+                  onChange={(e) => setNewLineCadenceN(Number(e.target.value))}
                 />
               </td>
               <td>other</td>
               <td>
-                <button
-                  onClick={handleAddStream}
-                  className={addReady ? "ready" : ""}
-                  disabled={!hasStreams && !addReady}
-                >
-                  {addReady || !hasStreams ? "Add" : "Cancel"}
+                <button onClick={handleAddLine} className={addReady ? "ready" : ""} disabled={!haslines && !addReady}>
+                  {addReady || !haslines ? "Add" : "Cancel"}
                 </button>
               </td>
             </tr>

@@ -1,5 +1,5 @@
 import type { Expense } from "./interface/expense";
-import type { Income, IncomeStream } from "./interface/income";
+import type { Income, IncomeLine } from "./interface/income";
 import type { TaxRoute } from "./interface/taxRoute";
 import { create } from "zustand";
 
@@ -17,7 +17,7 @@ export interface DataStore {
 
   setExpense: (expense: Expense) => void;
   setIncome: (income: Income) => void;
-  setIncomeStream: (incomeId: string, stream: IncomeStream) => void;
+  setIncomeLine: (incomeId: string, line: IncomeLine) => void;
   setTaxRoute: (taxRoute: TaxRoute) => void;
 }
 
@@ -26,13 +26,13 @@ export const useDataStore = create<DataStore>((set) => ({
   incomes: {},
   taxRoutes: {},
 
-  setIncomeStream: (incomeId: string, stream: IncomeStream) =>
+  setIncomeLine: (incomeId: string, line: IncomeLine) =>
     set((s) => {
       const income = s.incomes[incomeId];
       return {
         incomes: {
           ...s.incomes,
-          [incomeId]: { ...income, streams: { ...income.streams, [stream.id]: stream } },
+          [incomeId]: { ...income, lines: { ...income.lines, [line.id]: line } },
         },
       };
     }),

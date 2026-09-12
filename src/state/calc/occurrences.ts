@@ -1,4 +1,4 @@
-import type { CadenceAdjustment, Income, IncomeStream } from "../interface/income";
+import type { CadenceAdjustment, Income, IncomeLine } from "../interface/income";
 
 export function getOccurrenceDates(anchorDate: string, intervalDays: number, rangeStart: Date, rangeEnd: Date): Date[] {
   const anchor = new Date(anchorDate);
@@ -31,39 +31,39 @@ export function applyCadenceAdjustments(dates: Date[], adjustments: CadenceAdjus
   });
 }
 
-export function getStreamOccurrences(income: Income, stream: IncomeStream, rangeStart: Date, rangeEnd: Date): Date[] {
-  const intervalDays = stream.streamCadence.kind === "everyPaycheck" ? income.payPeriodDays : stream.streamCadence.n;
+export function getLineOccurrences(income: Income, line: IncomeLine, rangeStart: Date, rangeEnd: Date): Date[] {
+  const intervalDays = line.cadence.kind === "everyPaycheck" ? income.payPeriodDays : line.cadence.n;
 
-  const anchor = stream.streamCadence.kind === "everyPaycheck" ? income.anchorDate : stream.streamCadence.anchorDate;
+  const anchor = line.cadence.kind === "everyPaycheck" ? income.anchorDate : line.cadence.anchorDate;
 
   const rawDates = getOccurrenceDates(anchor, intervalDays, rangeStart, rangeEnd);
   return applyCadenceAdjustments(rawDates, income.cadenceAdjustments);
 }
 
-export interface MonthlyStreamTotal {
+export interface MonthlyLineTotal {
   monthKey: string; // "2026-11"
   occurrences: Date[];
   total: number;
 }
 
-function getStreamOccurrenceValue(stream: IncomeStream, intervalDays: number): number {
-  switch (stream.kind) {
+function getLineOccurrenceValue(line: IncomeLine, intervalDays: number): number {
+  switch (line.kind) {
     case "hourly":
-      return stream.hourlyRate * stream.hoursPerPeriod;
+      return line.hourlyRate * line.hoursPerPeriod;
     case "salary":
-      return stream.annualValue / (365 / intervalDays);
+      return line.annualValue / (365 / intervalDays);
   }
 }
 
-export function getMonthlyStreamTotals(
+export function getMonthlyLineTotals(
   income: Income,
-  stream: IncomeStream,
+  line: IncomeLine,
   rangeStart: Date,
   rangeEnd: Date,
-): MonthlyStreamTotal[] {
-  const dates = getStreamOccurrences(income, stream, rangeStart, rangeEnd);
-  const intervalDays = stream.streamCadence.kind === "everyPaycheck" ? income.payPeriodDays : stream.streamCadence.n;
-  const perOccurrenceValue = getStreamOccurrenceValue(stream, intervalDays);
+): MonthlyLineTotal[] {
+  const dates = getLineOccurrences(income, line, rangeStart, rangeEnd);
+  const intervalDays = line.cadence.kind === "everyPaycheck" ? income.payPeriodDays : line.cadence.n;
+  const perOccurrenceValue = getLineOccurrenceValue(line, intervalDays);
 
   const byMonth = new Map<string, Date[]>();
   for (const date of dates) {

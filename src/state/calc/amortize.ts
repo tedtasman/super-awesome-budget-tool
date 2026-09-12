@@ -1,5 +1,5 @@
 import type { Expense } from "../interface/expense";
-import type { Income, IncomeStream } from "../interface/income";
+import type { Income, IncomeLine } from "../interface/income";
 
 /**
  * Gets the yearly value of an expense based on its type and associated incomes.
@@ -18,26 +18,26 @@ export function getYearlyExpenseValue(expense: Expense, incomes: Record<string, 
   }
 }
 
-export function getYearlyStreamValue(stream: IncomeStream, payPeriodDays: number): number {
-  switch (stream.kind) {
+export function getYearlyLineValue(line: IncomeLine, payPeriodDays: number): number {
+  switch (line.kind) {
     case "hourly":
-      switch (stream.streamCadence.kind) {
+      switch (line.cadence.kind) {
         case "everyPaycheck":
-          return stream.hourlyRate * stream.hoursPerPeriod * Math.floor(365 / payPeriodDays);
+          return line.hourlyRate * line.hoursPerPeriod * Math.floor(365 / payPeriodDays);
         case "everyNDays":
-          return stream.hourlyRate * stream.hoursPerPeriod * (365 / stream.streamCadence.n);
+          return line.hourlyRate * line.hoursPerPeriod * (365 / line.cadence.n);
         default:
-          throw new Error(`Unknown stream cadence kind: ${JSON.stringify(stream.streamCadence)}`);
+          throw new Error(`Unknown line cadence kind: ${JSON.stringify(line.cadence)}`);
       }
     case "salary":
-      return stream.annualValue;
+      return line.annualValue;
     default:
-      throw new Error(`Unknown income stream kind: ${JSON.stringify(stream)}`);
+      throw new Error(`Unknown income line kind: ${JSON.stringify(line)}`);
   }
 }
 
 export function getYearlyIncomeValue(income: Income): number {
-  return Object.values(income.streams).reduce((total, stream) => {
-    return total + getYearlyStreamValue(stream, income.payPeriodDays);
+  return Object.values(income.lines).reduce((total, line) => {
+    return total + getYearlyLineValue(line, income.payPeriodDays);
   }, 0);
 }

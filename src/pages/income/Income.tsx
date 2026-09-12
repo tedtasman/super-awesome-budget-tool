@@ -42,7 +42,7 @@ export default function Income() {
       id: crypto.randomUUID(),
       name: newIncomeName,
       taxRouteIds: new Set<string>(),
-      streams: {},
+      lines: {},
       payPeriodDays: newIncomePayPeriodDays,
       anchorDate: newIncomeAnchorDate,
       cadenceAdjustments: [],

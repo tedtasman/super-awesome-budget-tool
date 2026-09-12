@@ -3,24 +3,24 @@ export interface CadenceAdjustment {
   adjustedDate: string;
 }
 
-export type StreamCadence = { kind: "everyPaycheck" } | { kind: "everyNDays"; n: number; anchorDate: string };
+export type LineCadence = { kind: "everyPaycheck" } | { kind: "everyNDays"; n: number; anchorDate: string };
 
-export type IncomeStream =
+export type IncomeLine =
   | {
       id: string;
       kind: "hourly";
       name: string;
       hourlyRate: number;
       hoursPerPeriod: number;
-      streamCadence: StreamCadence;
+      cadence: LineCadence;
     }
-  | { id: string; kind: "salary"; name: string; annualValue: number; streamCadence: StreamCadence };
+  | { id: string; kind: "salary"; name: string; annualValue: number; cadence: LineCadence };
 
 export interface Income {
   id: string;
   name: string;
   taxRouteIds: Set<string>;
-  streams: Record<string, IncomeStream>;
+  lines: Record<string, IncomeLine>;
   payPeriodDays: number;
   anchorDate: string;
   cadenceAdjustments: CadenceAdjustment[];

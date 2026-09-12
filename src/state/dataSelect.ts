@@ -1,5 +1,5 @@
 import { getYearlyExpenseValue, getYearlyIncomeValue } from "./calc/amortize";
-import { getMonthlyStreamTotals, getStreamOccurrences } from "./calc/occurrences";
+import { getMonthlyLineTotals, getLineOccurrences } from "./calc/occurrences";
 import { applyTaxBracket } from "./calc/tax";
 import type { DataStore } from "./dataStore";
 
@@ -20,20 +20,20 @@ export const dataSelect = {
   incomesForRoute: (routeId: string) => (s: DataStore) =>
     Object.values(s.incomes).filter((income) => income.taxRouteIds.has(routeId)),
 
-  monthlyStreamTotals: (incomeId: string, streamId: string, rangeStart: Date, rangeEnd: Date) => (s: DataStore) => {
+  monthlyLineTotals: (incomeId: string, lineId: string, rangeStart: Date, rangeEnd: Date) => (s: DataStore) => {
     const income = s.incomes[incomeId];
-    const stream = income.streams[streamId];
-    return getMonthlyStreamTotals(income, stream, rangeStart, rangeEnd);
+    const line = income.lines[lineId];
+    return getMonthlyLineTotals(income, line, rangeStart, rangeEnd);
   },
 
   postTaxIncome: (s: DataStore) => {
     return dataSelect.totalIncomePreTax(s) - dataSelect.totalTaxOwed(s);
   },
 
-  streamOccurrences: (incomeId: string, streamId: string, rangeStart: Date, rangeEnd: Date) => (s: DataStore) => {
+  lineOccurrences: (incomeId: string, lineId: string, rangeStart: Date, rangeEnd: Date) => (s: DataStore) => {
     const income = s.incomes[incomeId];
-    const stream = income.streams[streamId];
-    return getStreamOccurrences(income, stream, rangeStart, rangeEnd);
+    const line = income.lines[lineId];
+    return getLineOccurrences(income, line, rangeStart, rangeEnd);
   },
 
   taxOwedForRoute: (routeId: string) => (s: DataStore) => {

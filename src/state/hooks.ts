@@ -15,11 +15,11 @@ export const useTaxRoutes = () => useDataStore((s) => s.taxRoutes);
 export const useExpensesForRoute = (routeId: string) => useDataStore(dataSelect.expensesForRoute(routeId));
 export const useExpenseValueIfTaxed = (expenseId: string) => useDataStore(dataSelect.expenseValueIfTaxed(expenseId));
 export const useIncomesForRoute = (routeId: string) => useDataStore(dataSelect.incomesForRoute(routeId));
-export const useMonthlyStreamTotals = (incomeId: string, streamId: string, rangeStart: Date, rangeEnd: Date) =>
-  useDataStore(dataSelect.monthlyStreamTotals(incomeId, streamId, rangeStart, rangeEnd));
+export const useMonthlyLineTotals = (incomeId: string, lineId: string, rangeStart: Date, rangeEnd: Date) =>
+  useDataStore(dataSelect.monthlyLineTotals(incomeId, lineId, rangeStart, rangeEnd));
 export const usePostTaxIncome = () => useDataStore(dataSelect.postTaxIncome);
-export const useStreamOccurrences = (incomeId: string, streamId: string, rangeStart: Date, rangeEnd: Date) =>
-  useDataStore(dataSelect.streamOccurrences(incomeId, streamId, rangeStart, rangeEnd));
+export const useLineOccurrences = (incomeId: string, lineId: string, rangeStart: Date, rangeEnd: Date) =>
+  useDataStore(dataSelect.lineOccurrences(incomeId, lineId, rangeStart, rangeEnd));
 export const useTaxOwedForRoute = (routeId: string) => useDataStore(dataSelect.taxOwedForRoute(routeId));
 export const useTaxOwedForRouteWithoutExpenses = (routeId: string, expenseIds: string[]) =>
   useDataStore(dataSelect.taxOwedForRouteWithoutExpenses(routeId, expenseIds));
@@ -37,7 +37,7 @@ export const useRemoveExpense = () => useDataStore((s) => s.removeExpense);
 export const useRemoveTaxRoute = () => useDataStore((s) => s.removeTaxRoute);
 export const useSetExpense = () => useDataStore((s) => s.setExpense);
 export const useSetIncome = () => useDataStore((s) => s.setIncome);
-export const useSetIncomeStream = () => useDataStore((s) => s.setIncomeStream);
+export const useSetIncomeLine = () => useDataStore((s) => s.setIncomeLine);
 export const useSetTaxRoute = () => useDataStore((s) => s.setTaxRoute);
 /* ----- End store ----- */
 /* ======================== End Data Action Hooks ======================== */
