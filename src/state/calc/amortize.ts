@@ -8,14 +8,24 @@ import type { Income, IncomeLine } from "../interface/income";
  * @returns The yearly value of the expense.
  */
 export function getYearlyExpenseValue(expense: Expense, incomes: Record<string, Income>): number {
-  switch (expense.amount.kind) {
-    case "flat":
-      return expense.amount.periodicCost * (365 / expense.amount.periodicDays);
-    case "paycheckPercentage":
-      return getYearlyIncomeValue(incomes[expense.amount.incomeId]) * expense.amount.percentage;
-    default:
-      throw new Error(`Unknown expense amount kind: ${JSON.stringify(expense.amount)}`);
+  if (expense.type === "recurring") {
+    return getYearlyRecurringExpenseValue(expense);
   }
+
+  if (expense.amount.kind === "flat") {
+    return expense.amount.cost * (365 / incomes[expense.incomeId].payPeriodDays);
+  } else if (expense.amount.kind === "percentage") {
+    return getYearlyIncomeValue(incomes[expense.incomeId]) * expense.amount.decimalValue;
+  }
+
+  throw new Error(`Unknown expense type or amount kind for expense with id ${expense.id}.`);
+}
+
+export function getYearlyRecurringExpenseValue(expense: Expense): number {
+  if (expense.type !== "recurring") {
+    throw new Error(`Expense with id ${expense.id} is not a recurring expense.`);
+  }
+  return expense.cost * (365 / expense.cadence);
 }
 
 export function getYearlyLineValue(line: IncomeLine, payPeriodDays: number): number {

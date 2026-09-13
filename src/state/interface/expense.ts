@@ -1,10 +1,21 @@
-export type ExpenseAmount =
-  | { kind: "flat"; periodicCost: number; periodicDays: number }
-  | { kind: "paycheckPercentage"; incomeId: string; percentage: number };
+export type ExpenseAmount = { kind: "flat"; cost: number } | { kind: "percentage"; decimalValue: number };
 
-export interface Expense {
+interface ExpenseBase {
   id: string;
   name: string;
-  taxRouteIds: Set<string>;
+  reducedTaxRouteIds: Set<string>;
+}
+
+interface RecurringExpense extends ExpenseBase {
+  type: "recurring";
+  cadence: number; // in days
+  cost: number; // cost per cadence
+}
+
+interface IncomeTiedExpense extends ExpenseBase {
+  type: "tiedToIncome";
+  incomeId: string;
   amount: ExpenseAmount;
 }
+
+export type Expense = RecurringExpense | IncomeTiedExpense;

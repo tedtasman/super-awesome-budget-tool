@@ -7,7 +7,7 @@ import type { DataStore } from "./dataStore";
 
 export const dataSelect = {
   expensesForRoute: (routeId: string) => (s: DataStore) =>
-    Object.values(s.expenses).filter((expense) => expense.taxRouteIds.has(routeId)),
+    Object.values(s.expenses).filter((expense) => expense.reducedTaxRouteIds.has(routeId)),
 
   expenseValueIfTaxed: (expenseId: string) => (s: DataStore) => {
     const expense = s.expenses[expenseId];
