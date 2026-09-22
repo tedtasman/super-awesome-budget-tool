@@ -1,5 +1,7 @@
+import Select from "react-select";
+
 import PageCore from "../../ui/PageCore";
-import { useSetIncome, useIncomes, useRemoveIncome } from "../../state/hooks";
+import { useSetIncome, useIncomes, useRemoveIncome, useTaxRoutes } from "../../state/hooks";
 import YearlyIncome from "./YearlyIncome";
 import { useState } from "react";
 import ModalOverlay from "../../ui/ModalOverlay";
@@ -11,18 +13,22 @@ export default function Income() {
   const incomes = useIncomes();
   const setIncome = useSetIncome();
   const removeIncome = useRemoveIncome();
+  const taxRoutes = useTaxRoutes();
   // ====== End store hooks ========
 
   // ====== Computed data ========
   const incomeArray = Object.values(incomes);
   const hasIncomes = Object.keys(incomes).length > 0;
+  const taxRouteArray = Object.values(taxRoutes);
   // ====== End computed data ========
 
   // ====== Adding income state ========
   const [newIncomeName, setNewIncomeName] = useState("");
   const [newIncomeAnchorDate, setNewIncomeAnchorDate] = useState(new Date().toISOString().split("T")[0]);
   const [newIncomePayPeriodDays, setNewIncomePayPeriodDays] = useState(14);
+  const [newIncomeTaxRouteIds, setNewIncomeTaxRouteIds] = useState<string[]>([]);
   const [addingIncome, setAddingIncome] = useState(false);
+  const addReady = newIncomeName.trim() !== "" && newIncomePayPeriodDays > 0 && newIncomeAnchorDate.trim() !== "";
   // ====== End adding income state ========
 
   // ====== Editing incomes state ========
@@ -34,14 +40,13 @@ export default function Income() {
   const [year, setYear] = useState(new Date().getFullYear());
   // ====== End year state ========
 
-  console.log("GOING TO EVICT", evictedIncomeIds);
-
   // ====== Handlers ========
   const handleAddIncome = () => {
+    if (!addReady) return;
     const newIncome = {
       id: crypto.randomUUID(),
       name: newIncomeName,
-      taxRouteIds: new Set<string>(),
+      taxRouteIds: new Set(newIncomeTaxRouteIds),
       lines: {},
       payPeriodDays: newIncomePayPeriodDays,
       anchorDate: newIncomeAnchorDate,
@@ -51,6 +56,7 @@ export default function Income() {
     setNewIncomeName("");
     setNewIncomeAnchorDate(new Date().toISOString().split("T")[0]);
     setNewIncomePayPeriodDays(14);
+    setNewIncomeTaxRouteIds([]);
     setAddingIncome(false);
   };
 
@@ -104,7 +110,21 @@ export default function Income() {
             value={newIncomePayPeriodDays}
             onChange={(e) => setNewIncomePayPeriodDays(Number(e.target.value))}
           />
-          <button type="submit">Add Income</button>
+          <Select
+            isMulti
+            options={taxRouteArray.map((route) => ({ value: route.id, label: route.name }))}
+            placeholder="Select Tax Routes"
+            value={newIncomeTaxRouteIds.map((id) => {
+              const route = taxRouteArray.find((r) => r.id === id);
+              return route ? { value: route.id, label: route.name } : null;
+            })}
+            onChange={(selectedOptions) => {
+              setNewIncomeTaxRouteIds(Array.from(selectedOptions, (option) => option?.value || ""));
+            }}
+          />
+          <button type="submit" disabled={!addReady}>
+            Add Income
+          </button>
         </form>
       </ModalOverlay>
       {/* End add income modal */}

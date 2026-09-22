@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import { useSetIncomeLine } from "../../state/hooks";
+import { useSetIncomeLine, useTaxRoutes } from "../../state/hooks";
 
 import "../expenses/ExpenseTable.css";
 import type { Income, IncomeLine, LineCadence } from "../../state/interface/income";
@@ -121,7 +121,7 @@ export default function YearlyIncome({ income, year }: YearlyIncomeProps) {
   // Computed local data
   const startOfYear = new Date(`${year}-01-01`);
   const endOfYear = new Date(`${year}-12-31`);
-
+  const taxRoutes = useTaxRoutes();
   // End computed local data
 
   // Store hooks
@@ -142,6 +142,8 @@ export default function YearlyIncome({ income, year }: YearlyIncomeProps) {
       0,
     ),
   }));
+  const connectedTaxRoutesNames =
+    income.taxRouteIds.size > 0 ? Array.from(income.taxRouteIds).map((id) => taxRoutes[id]?.name || "") : [];
   // End computed store data
 
   // Adding line state
@@ -203,7 +205,9 @@ export default function YearlyIncome({ income, year }: YearlyIncomeProps) {
     <>
       <div>
         <div>
-          <h2>{income.name}</h2>
+          <span>
+            <strong>{income.name}</strong> - {connectedTaxRoutesNames.join(", ")}
+          </span>
         </div>
         <table className="expense-table">
           <tbody className="body">
