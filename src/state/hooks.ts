@@ -6,6 +6,7 @@ import { dataSelect } from "./dataSelect";
 
 /* ======================== Data Hooks ======================== */
 /* ----- Store ----- */
+export const useCategories = () => useDataStore((s) => s.categories);
 export const useExpenses = () => useDataStore((s) => s.expenses);
 export const useIncomes = () => useDataStore((s) => s.incomes);
 export const useTaxRoutes = () => useDataStore((s) => s.taxRoutes);
@@ -32,9 +33,12 @@ export const useTotalTaxOwedWithoutExpenses = (expenseIds: string[]) =>
 
 /* ======================== Data Action Hooks ======================== */
 /* ----- Store ----- */
+export const useRemoveCategory = () => useDataStore((s) => s.removeCategory);
 export const useRemoveIncome = () => useDataStore((s) => s.removeIncome);
 export const useRemoveExpense = () => useDataStore((s) => s.removeExpense);
 export const useRemoveTaxRoute = () => useDataStore((s) => s.removeTaxRoute);
+
+export const useSetCategory = () => useDataStore((s) => s.setCategory);
 export const useSetExpense = () => useDataStore((s) => s.setExpense);
 export const useSetIncome = () => useDataStore((s) => s.setIncome);
 export const useSetIncomeLine = () => useDataStore((s) => s.setIncomeLine);

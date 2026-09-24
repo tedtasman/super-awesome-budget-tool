@@ -4,6 +4,7 @@ interface ExpenseBase {
   id: string;
   name: string;
   reducedTaxRouteIds: Set<string>;
+  categoryId: string;
 }
 
 interface RecurringExpense extends ExpenseBase {

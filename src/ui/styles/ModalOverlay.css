@@ -29,6 +29,8 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     max-width: 90%;
     max-height: 90%;
+    min-width: 25%;
+    min-height: 25%;
     overflow-y: auto;
     transition: all 0.2s ease-in-out;
     pointer-events: auto;
@@ -56,6 +58,30 @@
     > .content {
       transform: translateY(-200px);
       opacity: 0;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        font-size: 0.75rem;
+      }
+
+      input,
+      select {
+        padding: 0.5rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.25rem;
+        background-color: var(--background-200);
+        color: var(--text-color);
+      }
     }
   }
 }

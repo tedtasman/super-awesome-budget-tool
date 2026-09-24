@@ -10,7 +10,7 @@ export default function PageCore({
   children: React.ReactNode;
   pageTitle: string;
   actions?: React.ReactNode;
-  tabs?: React.ReactNode;
+  tabs?: React.ReactNode[] | null;
   className: string;
 }) {
   return (

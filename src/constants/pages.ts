@@ -2,7 +2,7 @@ import Breakdown from "../pages/Breakdown";
 import Budget from "../pages/Budget";
 import Expenses from "../pages/expenses/Expenses";
 import Income from "../pages/income/Income";
-import Taxes from "../pages/Taxes";
+import Taxes from "../pages/taxes/Taxes";
 
 export const pages = [
   { name: "Budget", path: "/budget", component: Budget },

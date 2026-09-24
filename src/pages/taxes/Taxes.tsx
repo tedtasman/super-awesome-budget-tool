@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useSetTaxRoute, useTaxRoutes } from "../state/hooks";
-import ModalOverlay from "../ui/ModalOverlay";
-import PageCore from "../ui/PageCore";
-import RouteTable from "./taxes/RouteTable";
+import { useSetTaxRoute, useTaxRoutes } from "../../state/hooks";
+import ModalOverlay from "../../ui/ModalOverlay";
+import PageCore from "../../ui/PageCore";
+import RouteTable from "./RouteTable";
 
 export default function Taxes() {
   const taxRoutes = useTaxRoutes();
