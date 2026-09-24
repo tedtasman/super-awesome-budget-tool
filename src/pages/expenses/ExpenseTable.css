@@ -30,7 +30,7 @@
   }
 
   & .body > .separator {
-    background-color: var(--blue-300);
+    background-color: var(--blue-200);
 
     td {
       text-align: center;
@@ -55,7 +55,7 @@
         padding: 0;
         position: absolute;
         top: 1rem;
-        background-color: var(--primary);
+        background-color: var(--blue);
         color: var(--background);
         margin-left: 0.2rem;
         border-radius: 2rem;
@@ -82,7 +82,7 @@
     }
 
     & .ready {
-      background-color: var(--primary);
+      background-color: var(--blue);
       color: var(--background);
     }
 

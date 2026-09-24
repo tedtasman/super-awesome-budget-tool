@@ -7,6 +7,7 @@
   gap: 20px;
   background-color: var(--background-100);
   color: var(--text);
+  padding: var(--radius);
 
   & > .top {
     width: 100%;
@@ -23,8 +24,7 @@
     & > .pages {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
-      padding: 0.5rem;
+      gap: var(--radius);
       width: 100%;
       box-sizing: border-box;
 
@@ -34,7 +34,7 @@
         padding: 0.5em 0.5em;
         width: 100%;
         box-sizing: border-box;
-        border-radius: 0.5rem;
+        border-radius: var(--radius);
         border-left: 4px solid transparent;
         transition: all 0.1s ease-in-out;
 
@@ -45,11 +45,11 @@
         }
 
         &.active {
-          background-color: var(--primary);
+          background-color: var(--blue);
           color: var(--background);
 
           &:hover {
-            background-color: var(--primary-300);
+            background-color: var(--blue-300);
           }
         }
       }

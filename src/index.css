@@ -50,11 +50,17 @@ small {
 button {
   border: none;
   font: inherit;
-  border-radius: 0.75em;
-  padding: 1em 2em;
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  background-color: var(--background-200);
+  box-sizing: border-box;
+
+  &:hover {
+    background-color: var(--blue-200);
+  }
 }
 
 html,
@@ -64,6 +70,13 @@ p {
   padding: 0;
 }
 /* End global styles */
+
+/* Variables */
+:root {
+  --small: 0.75rem;
+  --radius: 3px;
+}
+/* End variables */
 
 /* Main colors */
 :root {

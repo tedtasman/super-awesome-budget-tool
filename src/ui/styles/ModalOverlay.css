@@ -25,7 +25,7 @@
     position: relative;
     background-color: var(--background-100);
     padding: 1rem;
-    border-radius: 0.5rem;
+    border-radius: var(--radius);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     max-width: 90%;
     max-height: 90%;
@@ -71,14 +71,14 @@
       flex-direction: column;
 
       label {
-        font-size: 0.75rem;
+        font-size: var(--small);
       }
 
       input,
       select {
         padding: 0.5rem;
         border: 1px solid var(--border-color);
-        border-radius: 0.25rem;
+        border-radius: var(--radius);
         background-color: var(--background-200);
         color: var(--text-color);
       }

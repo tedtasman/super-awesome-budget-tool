@@ -53,7 +53,11 @@ export default function Expenses() {
       className=""
       tabs={[
         ...categoryArray.map((categoryId) => (
-          <button key={categoryId} className="tab" onClick={() => setActiveCategoryId(categoryId)}>
+          <button
+            key={categoryId}
+            className={`tab ${activeCategoryId === categoryId ? "active" : ""}`}
+            onClick={() => setActiveCategoryId(categoryId)}
+          >
             {categories[categoryId].name}
           </button>
         )),
