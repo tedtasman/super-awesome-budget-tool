@@ -6,7 +6,7 @@ export default function Budget() {
   const navigate = useNavigate();
 
   return (
-    <PageCore pageTitle="Budget" actions={<>Test</>} tabs={<>Test2</>} className="budget">
+    <PageCore pageTitle="Budget" actions={<>Test</>} className="budget">
       <table className="categories">
         <thead className="info">
           <tr>
